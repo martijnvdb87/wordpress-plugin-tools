@@ -1,0 +1,9 @@
+{
+    "name": "martijnvdb/wp-plugin-payhip-product-overview",
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "Martijnvdb\\PayhipProductOverview\\": "app/"
+        }
+    }
+}
