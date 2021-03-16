@@ -13,9 +13,18 @@
  * Text Domain:       payhip-product-overview
  */
 
+use \Martijnvdb\PayhipProductOverview\Models\Posttype;
+
 require_once __DIR__ . '/vendor/autoload.php';
 
-$plugin = new Martijnvdb\PayhipProductOverview\Plugin([
-    'name' => 'payhip-product-overview'
-]);
-$plugin->run();
+$payhip_products_posttype = Posttype::create('payhip-products')
+    ->setSlug('shop')
+    ->isPublic()
+    ->addSupport(['thumbnail'])
+    ->setLabels([
+        'singular_name' => 'Product',
+        'add_new_item' => 'Add new Product',
+        'add_new' => 'New Product',
+        'edit_item' => 'Edit Product',
+    ])
+    ->build();
