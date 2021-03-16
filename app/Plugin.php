@@ -2,6 +2,7 @@
 namespace Martijnvdb\PayhipProductOverview;
 
 use \Martijnvdb\PayhipProductOverview\Models\Action;
+use \Martijnvdb\PayhipProductOverview\Models\Posttype;
 
 class Plugin {
     private $settings = [];
@@ -18,6 +19,16 @@ class Plugin {
 
     public function run()
     {
-        //
+        $payhip_products = Posttype::create('payhip-products')
+            ->setSlug('shop')
+            ->isPublic()
+            ->addSupport(['thumbnail'])
+            ->setLabels([
+                'singular_name' => 'Product',
+                'add_new_item' => 'Add new Product',
+                'add_new' => 'New Product',
+                'edit_item' => 'Edit Product',
+            ])
+            ->build();
     }
 }
