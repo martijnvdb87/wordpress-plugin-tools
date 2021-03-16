@@ -41,7 +41,7 @@ class Posttype {
 
         return $this;
     }
-    
+
     public function setLabels($values = [])
     {
         foreach($values as $key => $value) {
@@ -58,14 +58,14 @@ class Posttype {
         return $this;
     }
 
-    public function isPublic($value = true)
+    public function setPublic($value = true)
     {
         $this->options['public'] = (boolean) $value;
         
         return $this;
     }
 
-    public function isSearchable($value = true)
+    public function setSearchable($value = true)
     {
         $this->options['exclude_from_search'] = (boolean) !$value;
         

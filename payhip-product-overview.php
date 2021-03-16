@@ -19,7 +19,7 @@ require_once __DIR__ . '/vendor/autoload.php';
 
 $payhip_products_posttype = Posttype::create('payhip-products')
     ->setSlug('shop')
-    ->isPublic()
+    ->setPublic()
     ->addSupport(['thumbnail'])
     ->setLabels([
         'singular_name' => 'Product',
