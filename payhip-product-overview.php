@@ -13,11 +13,15 @@
  * Text Domain:       payhip-product-overview
  */
 
-use \Martijnvdb\PayhipProductOverview\Models\Posttype;
+namespace Martijnvdb\PayhipProductOverview;
+
+use Martijnvdb\PayhipProductOverview\Models\PostType;
+use Martijnvdb\PayhipProductOverview\Models\MetaBox;
+use Martijnvdb\PayhipProductOverview\Models\CustomField;
 
 require_once __DIR__ . '/vendor/autoload.php';
 
-$payhip_products_posttype = Posttype::create('payhip-products')
+$payhip_products_posttype = PostType::create('payhip-products')
     ->setSlug('shop')
     ->setPublic()
     ->addSupport(['thumbnail'])
@@ -28,3 +32,5 @@ $payhip_products_posttype = Posttype::create('payhip-products')
         'edit_item' => 'Edit Product',
     ])
     ->build();
+
+MetaBox::create('just-testing')->build();

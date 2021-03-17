@@ -2,10 +2,12 @@
 
 namespace Martijnvdb\PayhipProductOverview\Models;
 
-class Posttype {
+class PostType {
+
     private $id;
     private $options = [
         'supports' => ['title', 'editor'],
+        'labels' => [],
         'rewrite' => []
     ];
 
@@ -65,9 +67,23 @@ class Posttype {
         return $this;
     }
 
+    public function setHierarchical($value = true)
+    {
+        $this->options['hierarchical'] = (boolean) $value;
+        
+        return $this;
+    }
+
     public function setSearchable($value = true)
     {
         $this->options['exclude_from_search'] = (boolean) !$value;
+        
+        return $this;
+    }
+
+    public function setQueryable($value = true)
+    {
+        $this->options['publicly_queryable'] = (boolean) $value;
         
         return $this;
     }
