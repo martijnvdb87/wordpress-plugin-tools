@@ -1,0 +1,10 @@
+<section>
+    <p>
+        <label for="{{ id }}">{{ label }}</label>
+    </p>
+    <select id="{{ id }}" name="{{ id }}">
+        {% for option in options %}
+            <option value="{{ option.key }}" {% if option.selected %}selected{% endif %}>{{ option.value }}</option>
+        {% endfor %}
+    </select>
+</section>

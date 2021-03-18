@@ -34,9 +34,9 @@ $payhip_products_posttype = PostType::create('payhip-products')
     ->build();
 
 $customfield_testing = CustomField::create('just-testing')
-    ->setType('checkbox')
+    ->setType('text')
     ->setLabel('Testing');
-    
+
 $metabox_testing = MetaBox::create('just-testing')
     ->addCustomField($customfield_testing)
     ->build();

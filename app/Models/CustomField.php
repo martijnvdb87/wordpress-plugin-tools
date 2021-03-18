@@ -2,6 +2,8 @@
 
 namespace Martijnvdb\PayhipProductOverview\Models;
 
+use Martijnvdb\PayhipProductOverview\Models\Template;
+
 class CustomField {
 
     private $id;
@@ -47,7 +49,11 @@ class CustomField {
 
     public function addOption($key, $value)
     {
-        $this->options[] = [$key, $value];
+        $this->options[] = [
+            'key' => $key,
+            'value' => $value,
+            'selected' => false
+        ];
 
         return $this;
     }
@@ -63,58 +69,46 @@ class CustomField {
 
     private function textCustomField()
     {
-        $value = htmlentities($this->getValue());
-
-        $output = "<section>";
-        $output .= "<p><label for=\"{$this->id}\">{$this->label}</label></p>";
-        $output .= "<p><input type=\"text\" id=\"{$this->id}\" name=\"{$this->id}\" value=\"$value\"></p>";
-        $output .= "</section>";
-        return $output;
+        return Template::build('CustomFields/text.html', [
+            'id' => $this->id,
+            'label' => $this->label,
+            'value' => $this->getValue()
+        ]);
     }
 
     private function textareaCustomField()
     {
-        $value = htmlentities($this->getValue());
-
-        $output = "<section>";
-        $output .= "<p><label for=\"{$this->id}\">{$this->label}</label></p>";
-        $output .= "<p><textarea id=\"{$this->id}\" name=\"{$this->id}\" class=\"large-text\" rows=\"8\">$value</textarea></p>";
-        $output .= "</section>";
-        return $output;
+        return Template::build('CustomFields/textarea.html', [
+            'id' => $this->id,
+            'label' => $this->label,
+            'value' => $this->getValue()
+        ]);
     }
 
     private function selectCustomField()
     {
         $value = $this->getValue();
-
-        $output = "<section>";
-        $output .= "<p><label for=\"{$this->id}\">{$this->label}</label></p>";
-        $output .= "<select id=\"{$this->id}\" name=\"{$this->id}\">";
-
-        foreach($this->options as $option) {
-            $selected = $value === $option[0] ? ' selected' : '';
-            $output .= "<option value=\"{$option[0]}\"$selected>{$option[1]}</option>";
+        foreach($this->options as &$option) {
+            if($option['key'] == $value) {
+                $option['selected'] = true;
+                break;
+            }
         }
 
-        $output .= "</select>";
-        $output .= "</section>";
-        return $output;
+        return Template::build('CustomFields/select.html', [
+            'id' => $this->id,
+            'label' => $this->label,
+            'options' => $this->options
+        ]);
     }
 
     private function checkboxCustomField()
     {
-        $value = $this->getValue();
-        $checked = $this->getValue() ? ' checked' : '';
-
-        $output = "<section>";
-        $output = "<p>";
-        $output .= "<label for=\"{$this->id}\">";
-        $output .= "<input type=\"checkbox\" id=\"{$this->id}\" name=\"{$this->id}\" value=\"1\"$checked>";
-        $output .= "{$this->label}";
-        $output .= "</label>";
-        $output .= "</p>";
-        $output .= "</section>";
-        return $output;
+        return Template::build('CustomFields/checkbox.html', [
+            'id' => $this->id,
+            'label' => $this->label,
+            'checked' => $this->getValue() ? 'checked' : ''
+        ]);
     }
 
     public function build()
