@@ -66,8 +66,8 @@ class CustomField {
         $value = htmlentities($this->getValue());
 
         $output = "<section>";
-        $output .= "<label>{$this->label}</label><br>";
-        $output .= "<input type=\"text\" name=\"{$this->id}\" value=\"$value\" class=\"regular-text\">";
+        $output .= "<p><label for=\"{$this->id}\">{$this->label}</label></p>";
+        $output .= "<p><input type=\"text\" id=\"{$this->id}\" name=\"{$this->id}\" value=\"$value\"></p>";
         $output .= "</section>";
         return $output;
     }
@@ -97,6 +97,22 @@ class CustomField {
         }
 
         $output .= "</select>";
+        $output .= "</section>";
+        return $output;
+    }
+
+    private function checkboxCustomField()
+    {
+        $value = $this->getValue();
+        $checked = $this->getValue() ? ' checked' : '';
+
+        $output = "<section>";
+        $output = "<p>";
+        $output .= "<label for=\"{$this->id}\">";
+        $output .= "<input type=\"checkbox\" id=\"{$this->id}\" name=\"{$this->id}\" value=\"1\"$checked>";
+        $output .= "{$this->label}";
+        $output .= "</label>";
+        $output .= "</p>";
         $output .= "</section>";
         return $output;
     }
