@@ -2,6 +2,8 @@
 
 namespace Martijnvdb\PayhipProductOverview\Models;
 
+use Martijnvdb\PayhipProductOverview\Models\CustomField;
+
 class MetaBox {
 
     private $id;
@@ -10,10 +12,12 @@ class MetaBox {
     private $context = 'normal';
     private $priority = 'default';
 
+    private $custom_fields = [];
+
     public function __construct($id)
     {
         $id = sanitize_key($id);
-        $this->id = $id;
+        $this->id = "mvdb-wp-metabox-$id";
         $this->title = $this->convertToLabel($id);
         
         return $this;
@@ -38,8 +42,19 @@ class MetaBox {
 
 	public function metaBoxContent()
     {
-        echo "METABOX";
+        foreach($this->custom_fields as $custom_field) {
+            echo $custom_field->build();
+        }
 	}
+
+    public function addCustomField($custom_field)
+    {
+        if($custom_field instanceof CustomField) {
+            $this->custom_fields[] = $custom_field;
+        }
+
+        return $this;
+    }
 
     public function build()
     {

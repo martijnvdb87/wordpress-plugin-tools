@@ -33,4 +33,13 @@ $payhip_products_posttype = PostType::create('payhip-products')
     ])
     ->build();
 
-MetaBox::create('just-testing')->build();
+$customfield_testing = CustomField::create('just-testing')
+    ->setType('select')
+    ->addOption('value-1', 'Value 1')
+    ->addOption('value-2', 'Value 2')
+    ->addOption('value-3', 'Value 3')
+    ->setLabel('Testing');
+
+$metabox_testing = MetaBox::create('just-testing')
+    ->addCustomField($customfield_testing)
+    ->build();
