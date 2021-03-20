@@ -8,7 +8,8 @@ class CustomField {
 
     private $id;
     private $title;
-    private $type;
+    private $type = 'text';
+    private $index;
     private $label;
 
     private $options = [];
@@ -16,7 +17,7 @@ class CustomField {
     public function __construct($id)
     {
         $id = sanitize_key($id);
-        $this->id = "mvdb-wp-custom-field-$id";
+        $this->id = $id;
         
         add_action('save_post', [$this, 'save']);
 
@@ -26,6 +27,38 @@ class CustomField {
     public static function create($id)
     {
         return new self($id);
+    }
+
+    public static function getItemValue($id, $index = null)
+    {
+        global $post;
+
+        $value = '';
+        
+        $post_meta = get_post_meta($post->ID, $id, true);
+        
+        if(is_array($post_meta) && isset($index)) {
+            $value = $post_meta[$index];
+
+        } else {
+            $value = $post_meta;
+        }
+
+        return $value;
+    }
+    
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    public function getValueArraySize()
+    {
+        $post_meta = get_post_meta($post->ID, $id, false);
+
+        print_r($post_meta);
+
+        exit();
     }
 
     public function setType($value)
@@ -43,7 +76,8 @@ class CustomField {
     public function save()
     {
         global $post;
-        if(empty($_POST)) return; 
+        if(empty($_POST)) return;
+
         update_post_meta($post->ID, $this->id, $_POST[$this->id]);
     }
 
@@ -58,11 +92,22 @@ class CustomField {
         return $this;
     }
 
-    private function getValue()
+    public function getValue($index = null)
     {
-        global $post;
-        $custom = get_post_custom($post->ID);
-        $value = isset($custom[$this->id][0]) ? $custom[$this->id][0] : '';
+        return self::getItemValue($this->id, $index);
+
+        // exit();
+
+        // if(isset($this->index)) {
+        //     $custom = get_post_meta($post->ID, $this->id, false);
+
+        //     if(is_array($custom)) {
+        //         $value = isset($custom[0][$this->index]) ? $custom[0][$this->index] : '';
+        //     }
+
+        // } else {
+        //     $value = get_post_meta($post->ID, $this->id, true);
+        // }
 
         return $value;
     }
@@ -72,7 +117,8 @@ class CustomField {
         return Template::build('CustomFields/text.html', [
             'id' => $this->id,
             'label' => $this->label,
-            'value' => $this->getValue()
+            'value' => $this->getValue($this->index),
+            'is_array' => isset($this->index)
         ]);
     }
 
@@ -81,13 +127,14 @@ class CustomField {
         return Template::build('CustomFields/textarea.html', [
             'id' => $this->id,
             'label' => $this->label,
-            'value' => $this->getValue()
+            'value' => $this->getValue($this->index),
+            'is_array' => isset($this->index)
         ]);
     }
 
     private function selectCustomField()
     {
-        $value = $this->getValue();
+        $value = $this->getValue($this->index);
         foreach($this->options as &$option) {
             if($option['key'] == $value) {
                 $option['selected'] = true;
@@ -98,7 +145,8 @@ class CustomField {
         return Template::build('CustomFields/select.html', [
             'id' => $this->id,
             'label' => $this->label,
-            'options' => $this->options
+            'options' => $this->options,
+            'is_array' => isset($this->index)
         ]);
     }
 
@@ -107,8 +155,16 @@ class CustomField {
         return Template::build('CustomFields/checkbox.html', [
             'id' => $this->id,
             'label' => $this->label,
-            'checked' => $this->getValue() ? 'checked' : ''
+            'checked' => $this->getValue($this->index) ? 'checked' : '',
+            'is_array' => isset($this->index)
         ]);
+    }
+
+    public function setIndex($index)
+    {
+        $this->index = $index;
+
+        return $this;
     }
 
     public function build()

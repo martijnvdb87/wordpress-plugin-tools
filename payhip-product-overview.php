@@ -37,6 +37,11 @@ $customfield_testing = CustomField::create('just-testing')
     ->setType('text')
     ->setLabel('Testing');
 
+$customfield_testing1 = CustomField::create('just-testing1')
+    ->setType('text')
+    ->setLabel('Testing');
+
 $metabox_testing = MetaBox::create('just-testing')
-    ->addCustomField($customfield_testing)
+    //->addItem([$customfield_testing1])
+    ->addList([$customfield_testing, $customfield_testing1])
     ->build();

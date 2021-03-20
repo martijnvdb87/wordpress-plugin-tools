@@ -1,0 +1,21 @@
+<section id="{{ id }}">
+    <ol>
+        {% for list in lists %}
+        <li>
+            {% for field in list.fields %} {{ field | raw }} {% endfor %}
+            <button type="button" onclick="mvdb_wp_metabox_delete_list(this)">Delete</button>
+            <button type="button" class="handle">Drag</button>
+        </li>
+        {% endfor %}
+    </ol>
+    <button type="button" onclick="mvdb_wp_metabox_new_list(this)">New</button>
+</section>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function(e) {
+        new Sortable(document.querySelector('#{{ id }} > ol'), {
+            handle: '.handle', // handle's class
+            animation: 150
+        });
+    });
+</script>

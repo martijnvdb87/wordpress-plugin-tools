@@ -2,7 +2,7 @@
     <p>
         <label for="{{ id }}">{{ label }}</label>
     </p>
-    <select id="{{ id }}" name="{{ id }}">
+    <select id="{{ id }}" name="{{ id }}{% if is_array %}[]{% endif %}">
         {% for option in options %}
             <option value="{{ option.key }}" {% if option.selected %}selected{% endif %}>{{ option.value }}</option>
         {% endfor %}
