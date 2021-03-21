@@ -53,7 +53,7 @@ function mvdb_wp_metabox_delete_list(e, target) {
 
     if (!list) return;
 
-    if (confirm("Are you sure you want to delete this item?")) {
+    if (confirm(target.getAttribute('data-delete-confirm'))) {
         mvdb_wp_metabox_delete_list_confirm(list);
     }
 }

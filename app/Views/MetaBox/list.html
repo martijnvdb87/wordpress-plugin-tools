@@ -3,12 +3,12 @@
         {% for list in lists %}
         <li>
             {% for field in list.fields %} {{ field | raw }} {% endfor %}
-            <a href="#" class="submitdelete deletion" onclick="mvdb_wp_metabox_delete_list(event, this)">Delete</a>
-            <a href="#" class="handle" onclick="event.preventDefault();">Drag</a>
+            <a href="#" class="submitdelete deletion" onclick="mvdb_wp_metabox_delete_list(event, this)" data-delete-confirm="{{ translate.delete_confirm }}">{{ translate.delete }}</a>
+            <a href="#" class="handle" onclick="event.preventDefault();">{{ translate.drag }}</a>
         </li>
         {% endfor %}
     </ol>
-    <button type="button" class="button button-primary button-large" onclick="mvdb_wp_metabox_new_list(event, this)">New</button>
+    <button type="button" class="button button-primary button-large" onclick="mvdb_wp_metabox_new_list(event, this)">{{ translate.new }}</button>
 </section>
 
 <script>

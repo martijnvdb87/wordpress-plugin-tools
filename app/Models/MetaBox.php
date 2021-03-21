@@ -94,7 +94,13 @@ class MetaBox {
 
                 echo Template::build('MetaBox/list.html', [
                     'id' => uniqid("{$this->id}-") . random_int(10000000, 99999999),
-                    'lists' => $lists
+                    'lists' => $lists,
+                    'translate' => [
+                        'new' => Translation::get('New'),
+                        'delete' => Translation::get('Delete'),
+                        'delete_confirm' => Translation::get('Are you sure you want to delete this item?'),
+                        'drag' => Translation::get('Drag'),
+                    ]
                 ]);
             }
         }
