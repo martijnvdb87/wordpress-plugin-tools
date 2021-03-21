@@ -14,19 +14,23 @@ class CustomField {
 
     private $options = [];
 
-    public function __construct($id)
+    public function __construct($id, $type = null)
     {
         $id = sanitize_key($id);
         $this->id = $id;
+
+        if(isset($type)) {
+            $this->type = $type;
+        }
         
         add_action('save_post', [$this, 'save']);
 
         return $this;
     }
 
-    public static function create($id)
+    public static function create($id, $type = null)
     {
-        return new self($id);
+        return new self($id, $type);
     }
 
     public static function getItemValue($id, $index = null)

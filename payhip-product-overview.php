@@ -27,29 +27,21 @@ require_once __DIR__ . '/vendor/autoload.php';
 $payhip_products_posttype = PostType::create('payhip-products')
     ->setSlug('shop')
     ->setPublic()
-    ->addSupport(['thumbnail', 'gutenberg'])
+    ->addSupport(['thumbnail'])
     ->setLabels([
         'singular_name' => 'Product',
         'add_new_item' => 'Add new Product',
         'add_new' => 'New Product',
         'edit_item' => 'Edit Product',
     ])
-    ->addShowInRest()
+    ->addBlockEditor()
     ->build();
 
-$customfield_testing = CustomField::create('just-testing')
-    ->setType('text')
-    ->setLabel(Translation::get('Hello'));
-
-$customfield_testing1 = CustomField::create('just-testing1')
-    ->setType('text')
-    ->setLabel(Translation::get('Hello'));
-
-$customfield_testing2 = CustomField::create('just-testing2')
-    ->setType('textarea')
-    ->setLabel(Translation::get('Hello'));
+$customfield_testing_1 = CustomField::create('just-testing', 'text')->setLabel(Translation::get('Custom field 1'));
+$customfield_testing_2 = CustomField::create('just-testing1', 'text')->setLabel(Translation::get('Custom field 2'));
+$customfield_testing_3 = CustomField::create('just-testing2', 'textarea')->setLabel(Translation::get('Custom field 3'));
 
 $metabox_testing = MetaBox::create('just-testing')
-    //->addItem([$customfield_testing1])
-    ->addList([$customfield_testing, $customfield_testing1, $customfield_testing2])
+    ->addItem([$customfield_testing_1])
+    ->addList([$customfield_testing_2, $customfield_testing_3])
     ->build();
