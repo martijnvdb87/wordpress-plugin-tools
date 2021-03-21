@@ -137,6 +137,13 @@ class PostType {
         return $this;
     }
 
+    public function addShowInRest($value = true)
+    {
+        $this->options['show_in_rest'] = $value;
+        
+        return $this;
+    }
+
     public function addOption($key, $value)
     {
         $this->options[$key] = $value;

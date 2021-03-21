@@ -96,19 +96,6 @@ class CustomField {
     {
         return self::getItemValue($this->id, $index);
 
-        // exit();
-
-        // if(isset($this->index)) {
-        //     $custom = get_post_meta($post->ID, $this->id, false);
-
-        //     if(is_array($custom)) {
-        //         $value = isset($custom[0][$this->index]) ? $custom[0][$this->index] : '';
-        //     }
-
-        // } else {
-        //     $value = get_post_meta($post->ID, $this->id, true);
-        // }
-
         return $value;
     }
 

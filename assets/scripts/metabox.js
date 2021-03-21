@@ -1,4 +1,5 @@
-function mvdb_wp_metabox_new_list(target) {
+function mvdb_wp_metabox_new_list(e, target) {
+    e.preventDefault();
 
     var section = target;
     // Find current section
@@ -36,7 +37,9 @@ function mvdb_wp_metabox_new_list(target) {
     lists.append(newList);
 }
 
-function mvdb_wp_metabox_delete_list(target) {
+function mvdb_wp_metabox_delete_list(e, target) {
+    e.preventDefault();
+
     var list = target;
     // Find current section
     while (
