@@ -1,10 +1,15 @@
-<section id="{{ id }}">
+<section id="{{ id }}" class="mvdb-metabox-section">
+    <p>
+        <label>{{ label }}</label>
+    </p>
     <ol>
         {% for list in lists %}
         <li>
             {% for field in list.fields %} {{ field | raw }} {% endfor %}
-            <a href="#" class="submitdelete deletion" onclick="mvdb_wp_metabox_delete_list(event, this)" data-delete-confirm="{{ translate.delete_confirm }}">{{ translate.delete }}</a>
-            <a href="#" class="handle" onclick="event.preventDefault();">{{ translate.drag }}</a>
+            <p>
+                <a href="#" class="submitdelete deletion" onclick="mvdb_wp_metabox_delete_list(event, this)" data-delete-confirm="{{ translate.delete_confirm }}">{{ translate.delete }}</a>
+                <a href="#" class="handle" onclick="event.preventDefault();">{{ translate.drag }}</a>
+            </p>
         </li>
         {% endfor %}
     </ol>

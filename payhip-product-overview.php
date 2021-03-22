@@ -16,11 +16,7 @@
 
 namespace Martijnvdb\PayhipProductOverview;
 
-use Martijnvdb\PayhipProductOverview\Models\Setting;
-use Martijnvdb\PayhipProductOverview\Models\PostType;
-use Martijnvdb\PayhipProductOverview\Models\MetaBox;
-use Martijnvdb\PayhipProductOverview\Models\CustomField;
-use Martijnvdb\PayhipProductOverview\Models\Translation;
+use Martijnvdb\PayhipProductOverview\Models\{PostType, CustomField, MetaBox, Translation};
 
 require_once __DIR__ . '/vendor/autoload.php';
 
@@ -34,7 +30,7 @@ $payhip_products_posttype = PostType::create('payhip-products')
         'add_new' => 'New Product',
         'edit_item' => 'Edit Product',
     ])
-    ->addBlockEditor()
+    //->addBlockEditor()
     ->build();
 
 $customfield_testing_1 = CustomField::create('just-testing', 'text')->setLabel(Translation::get('Custom field 1'));
@@ -43,5 +39,5 @@ $customfield_testing_3 = CustomField::create('just-testing2', 'textarea')->setLa
 
 $metabox_testing = MetaBox::create('just-testing')
     ->addItem([$customfield_testing_1])
-    ->addList([$customfield_testing_2, $customfield_testing_3])
+    ->addList(Translation::get('List label'), [$customfield_testing_2, $customfield_testing_3])
     ->build();

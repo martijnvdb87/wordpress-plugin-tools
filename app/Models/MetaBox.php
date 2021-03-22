@@ -62,8 +62,6 @@ class MetaBox {
                 }
             }
 
-            // TODO
-
             if($item['type'] == 'list') {
                 $list_amount = 0;
                 $lists = [];
@@ -94,6 +92,7 @@ class MetaBox {
 
                 echo Template::build('MetaBox/list.html', [
                     'id' => uniqid("{$this->id}-") . random_int(10000000, 99999999),
+                    'label' => $item['label'],
                     'lists' => $lists,
                     'translate' => [
                         'new' => Translation::get('New'),
@@ -124,7 +123,7 @@ class MetaBox {
         return $this;
     }
 
-    public function addList($custom_fields = [], $max_lists = null)
+    public function addList($label, $custom_fields = [], $max_lists = null)
     {
         if(!is_array($custom_fields)) {
             $custom_fields = [$custom_fields];
@@ -136,6 +135,7 @@ class MetaBox {
         
         $this->items[] = [
             'type' => 'list',
+            'label' => $label,
             'fields' => $custom_fields
         ];
 
