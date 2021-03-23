@@ -1,0 +1,8 @@
+<section>
+    <p>
+        <label for="{{ id }}">{{ label }}</label>
+    </p>
+    <p>
+        <input type="number" id="{{ id }}" name="{{ name }}{% if is_array %}[]{% endif %}" value="{{ value }}" class="small-text" min="{{ min }}" max="{{ max }}" step="{{ step }}">
+    </p>
+</section>

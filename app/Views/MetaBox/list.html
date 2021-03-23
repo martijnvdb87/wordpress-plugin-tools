@@ -22,12 +22,3 @@
     </ol>
     <button type="button" class="button button-primary button-large" onclick="mvdb_wp_metabox_new_list(event, this)">{{ translate.new }}</button>
 </section>
-
-<script>
-    document.addEventListener('DOMContentLoaded', function(e) {
-        new Sortable(document.querySelector('#{{ id }} > ol'), {
-            handle: '.handle',
-            animation: 150
-        });
-    });
-</script>

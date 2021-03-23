@@ -24,17 +24,35 @@ function mvdb_wp_metabox_new_list(e, target) {
 
     var newList = list.cloneNode(true);
 
-    var inputs = newList.querySelectorAll('input');
+    var inputs = newList.querySelectorAll('input, textarea');
     for (var i = 0; i < inputs.length; i++) {
+        inputs[i].setAttribute('value', '');
         inputs[i].value = null;
-    }
 
-    var textareas = newList.querySelectorAll('textarea');
-    for (var i = 0; i < textareas.length; i++) {
-        textareas[i].value = null;
+        mvdb_wp_metabox_new_lists_input_id(newList, inputs[i]);
     }
 
     lists.append(newList);
+}
+
+function mvdb_wp_metabox_new_lists_input_id(list, input) {
+    var id = input.id;
+    var parts = id.split('-');
+    parts.pop();
+
+    var chars = '0123456789abcdef';
+    var random = '';
+    while (random.length < 23) {
+        var num = Math.floor(Math.random() * Math.floor(chars.length - 1));
+        random += chars[num];
+    }
+
+    parts.push(random);
+    var newId = parts.join('-');
+
+    var label = list.querySelector('label[for="' + id + '"]');
+    label.setAttribute('for', newId);
+    input.id = newId;
 }
 
 function mvdb_wp_metabox_order(e, target) {

@@ -11,6 +11,9 @@ class CustomField {
     private $type = 'text';
     private $index;
     private $label;
+    private $min;
+    private $max;
+    private $step;
 
     private $options = [];
 
@@ -56,15 +59,6 @@ class CustomField {
         return $this->id;
     }
 
-    public function getValueArraySize()
-    {
-        $post_meta = get_post_meta($post->ID, $id, false);
-
-        print_r($post_meta);
-
-        exit();
-    }
-
     public function setType($value)
     {
         $this->type = $value;
@@ -74,6 +68,24 @@ class CustomField {
     public function setLabel($value)
     {
         $this->label = $value;
+        return $this;
+    }
+
+    public function setMin($value)
+    {
+        $this->min = $value;
+        return $this;
+    }
+
+    public function setMax($value)
+    {
+        $this->max = $value;
+        return $this;
+    }
+
+    public function setStep($value)
+    {
+        $this->step = $value;
         return $this;
     }
 
@@ -106,7 +118,8 @@ class CustomField {
     private function textCustomField()
     {
         return Template::build('CustomFields/text.html', [
-            'id' => $this->id,
+            'id' => $this->id . '-' . uniqid('', true),
+            'name' => $this->id,
             'label' => $this->label,
             'value' => $this->getValue($this->index),
             'is_array' => isset($this->index)
@@ -116,7 +129,8 @@ class CustomField {
     private function textareaCustomField()
     {
         return Template::build('CustomFields/textarea.html', [
-            'id' => $this->id,
+            'id' => $this->id . '-' . uniqid('', true),
+            'name' => $this->id,
             'label' => $this->label,
             'value' => $this->getValue($this->index),
             'is_array' => isset($this->index)
@@ -134,7 +148,8 @@ class CustomField {
         }
 
         return Template::build('CustomFields/select.html', [
-            'id' => $this->id,
+            'id' => $this->id . '-' . uniqid('', true),
+            'name' => $this->id,
             'label' => $this->label,
             'options' => $this->options,
             'is_array' => isset($this->index)
@@ -144,9 +159,25 @@ class CustomField {
     private function checkboxCustomField()
     {
         return Template::build('CustomFields/checkbox.html', [
-            'id' => $this->id,
+            'id' => $this->id . '-' . uniqid('', true),
+            'name' => $this->id,
             'label' => $this->label,
             'checked' => $this->getValue($this->index) ? 'checked' : '',
+            'is_array' => isset($this->index)
+        ]);
+    }
+
+
+    private function numberCustomField()
+    {
+        return Template::build('CustomFields/number.html', [
+            'id' => $this->id . '-' . uniqid('', true),
+            'name' => $this->id,
+            'label' => $this->label,
+            'value' => $this->getValue($this->index),
+            'min' => $this->min,
+            'max' => $this->max,
+            'step' => $this->step,
             'is_array' => isset($this->index)
         ]);
     }

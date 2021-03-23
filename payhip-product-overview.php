@@ -36,8 +36,11 @@ $payhip_products_posttype = PostType::create('payhip-products')
 $customfield_testing_1 = CustomField::create('just-testing', 'text')->setLabel(Translation::get('Custom field 1'));
 $customfield_testing_2 = CustomField::create('just-testing1', 'text')->setLabel(Translation::get('Custom field 2'));
 $customfield_testing_3 = CustomField::create('just-testing2', 'textarea')->setLabel(Translation::get('Custom field 3'));
+$customfield_testing_4 = CustomField::create('just-testing3', 'number')->setLabel(Translation::get('Custom field 4'));
+$customfield_testing_5 = CustomField::create('just-testing4', 'checkbox')->setLabel(Translation::get('Custom field 5'));
 
 $metabox_testing = MetaBox::create('just-testing')
     ->addItem([$customfield_testing_1])
-    ->addList(Translation::get('List label'), [$customfield_testing_2, $customfield_testing_3])
+    ->addItem([$customfield_testing_4])
+    ->addList(Translation::get('List label'), [$customfield_testing_2, $customfield_testing_3, $customfield_testing_5])
     ->build();
