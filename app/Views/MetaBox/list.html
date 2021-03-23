@@ -6,10 +6,17 @@
         {% for list in lists %}
         <li>
             {% for field in list.fields %} {{ field | raw }} {% endfor %}
-            <p>
-                <a href="#" class="submitdelete deletion" onclick="mvdb_wp_metabox_delete_list(event, this)" data-delete-confirm="{{ translate.delete_confirm }}">{{ translate.delete }}</a>
-                <a href="#" class="handle" onclick="event.preventDefault();">{{ translate.drag }}</a>
-            </p>
+            <div class="mvdb-metabox-section-actions">
+                <button type="button" class="mvdb-metabox-section-order-higher" onclick="mvdb_wp_metabox_order(event, this);" data-order="higher">
+                    <span class="mvdb-metabox-section-order-higher-indicator" aria-hidden="true"></span>
+                </button>
+                <button type="button" class="mvdb-metabox-section-order-lower" onclick="mvdb_wp_metabox_order(event, this);" data-order="lower">
+                    <span class="mvdb-metabox-section-order-lower-indicator" aria-hidden="true"></span>
+                </button>
+                <button type="button" class="mvdb-metabox-section-deletion" onclick="mvdb_wp_metabox_delete_list(event, this);" data-delete-confirm="{{ translate.delete_confirm }}">
+                    <span class="mvdb-metabox-section-deletion-indication"></span>
+                </button>
+            </div>
         </li>
         {% endfor %}
     </ol>

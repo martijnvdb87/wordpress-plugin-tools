@@ -37,6 +37,35 @@ function mvdb_wp_metabox_new_list(e, target) {
     lists.append(newList);
 }
 
+function mvdb_wp_metabox_order(e, target) {
+    e.preventDefault();
+
+    var list = target;
+    // Find current section
+    while (
+        list &&
+        list.nodeName &&
+        list.nodeName != 'LI' &&
+        list.parentElement
+    ) {
+        list = list.parentElement;
+    }
+
+    if (!list) return;
+
+    var container = list.parentElement;
+
+    if (target.getAttribute('data-order') == 'higher') {
+        if (list.previousElementSibling) {
+            container.insertBefore(list, list.previousElementSibling)
+        }
+    } else {
+        if (list.nextElementSibling) {
+            container.insertBefore(list.nextElementSibling, list)
+        }
+    }
+}
+
 function mvdb_wp_metabox_delete_list(e, target) {
     e.preventDefault();
 

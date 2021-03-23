@@ -27,7 +27,6 @@ class MetaBox {
     public function loadScript()
     {
         wp_enqueue_script('mvdb-wp-metabox-script', plugins_url( 'assets/scripts/metabox.js', __DIR__ . '/../../../' ));
-        wp_enqueue_script('mvdb-wp-sortable-script', plugins_url( 'assets/scripts/sortable.js', __DIR__ . '/../../../' ));
     }
 
     public function loadStyle()
@@ -96,9 +95,7 @@ class MetaBox {
                     'lists' => $lists,
                     'translate' => [
                         'new' => Translation::get('New'),
-                        'delete' => Translation::get('Delete'),
                         'delete_confirm' => Translation::get('Are you sure you want to delete this item?'),
-                        'drag' => Translation::get('Drag'),
                     ]
                 ]);
             }
