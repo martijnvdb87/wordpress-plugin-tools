@@ -63,16 +63,18 @@ class MetaBox {
 
             if($item['type'] == 'list') {
                 $list_amount = 0;
+                $fields = [];
                 $lists = [];
                 
                 foreach($item['fields'] as $index => $field) {
                     $field_value = CustomField::getItemValue($field->getId());
+                    $fields[] = $field->setIndex(0)->build();
 
                     if(is_array($field_value)) {
                         $field_size = sizeof($field_value);
 
                     } else {
-                        $field_size = 1;
+                        $field_size = 0;
                     }
 
                     $list_amount = $list_amount < $field_size ? $field_size : $list_amount;
@@ -90,8 +92,9 @@ class MetaBox {
                 }
 
                 echo Template::build('MetaBox/list.html', [
-                    'id' => uniqid("{$this->id}-") . random_int(10000000, 99999999),
+                    'id' => uniqid("{$this->id}-", true),
                     'label' => $item['label'],
+                    'fields' => $fields,
                     'lists' => $lists,
                     'translate' => [
                         'new' => Translation::get('New'),

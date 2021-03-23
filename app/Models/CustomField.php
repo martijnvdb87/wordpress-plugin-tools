@@ -118,7 +118,7 @@ class CustomField {
     private function textCustomField()
     {
         return Template::build('CustomFields/text.html', [
-            'id' => $this->id . '-' . uniqid('', true),
+            'id' => uniqid("{$this->id}-", true),
             'name' => $this->id,
             'label' => $this->label,
             'value' => $this->getValue($this->index),
@@ -129,7 +129,7 @@ class CustomField {
     private function textareaCustomField()
     {
         return Template::build('CustomFields/textarea.html', [
-            'id' => $this->id . '-' . uniqid('', true),
+            'id' => uniqid("{$this->id}-", true),
             'name' => $this->id,
             'label' => $this->label,
             'value' => $this->getValue($this->index),
@@ -148,7 +148,7 @@ class CustomField {
         }
 
         return Template::build('CustomFields/select.html', [
-            'id' => $this->id . '-' . uniqid('', true),
+            'id' => uniqid("{$this->id}-", true),
             'name' => $this->id,
             'label' => $this->label,
             'options' => $this->options,
@@ -159,7 +159,7 @@ class CustomField {
     private function checkboxCustomField()
     {
         return Template::build('CustomFields/checkbox.html', [
-            'id' => $this->id . '-' . uniqid('', true),
+            'id' => uniqid("{$this->id}-", true),
             'name' => $this->id,
             'label' => $this->label,
             'checked' => $this->getValue($this->index) ? 'checked' : '',
@@ -171,7 +171,7 @@ class CustomField {
     private function numberCustomField()
     {
         return Template::build('CustomFields/number.html', [
-            'id' => $this->id . '-' . uniqid('', true),
+            'id' => uniqid("{$this->id}-", true),
             'name' => $this->id,
             'label' => $this->label,
             'value' => $this->getValue($this->index),

@@ -18,7 +18,7 @@ function mvdb_wp_metabox_new_list(e, target) {
 
     if (!lists) return;
 
-    var list = lists.querySelector('li');
+    var list = section.querySelector('template').content;
 
     if (!list) return;
 

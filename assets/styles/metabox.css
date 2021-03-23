@@ -1,5 +1,9 @@
 .mvdb-metabox-section {}
 
+.mvdb-metabox-section template {
+    display: none;
+}
+
 .mvdb-metabox-section>ol {
     margin: 0px;
     list-style: none;
