@@ -1,0 +1,15 @@
+<section id="{{ id }}" class="mvdb-settingspage">
+    <div class="wrap">
+        <h1>{{ page_title }}</h1>
+
+        <form method="post" action="options.php">
+            {{ settings_fields | raw }} {{ do_settings_sections | raw }}
+            <table class="form-table">
+                {% for field in fields %} {{ field | raw }} {% endfor %}
+            </table>
+
+            {{ submit_button | raw }}
+
+        </form>
+    </div>
+</section>

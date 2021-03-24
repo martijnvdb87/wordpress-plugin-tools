@@ -16,7 +16,7 @@
 
 namespace Martijnvdb\PayhipProductOverview;
 
-use Martijnvdb\PayhipProductOverview\Models\{PostType, CustomField, MetaBox, Translation};
+use Martijnvdb\PayhipProductOverview\Models\{PostType, CustomField, MetaBox, Translation, SettingsPage, SettingField};
 
 require_once __DIR__ . '/vendor/autoload.php';
 
@@ -43,4 +43,10 @@ $metabox_testing = MetaBox::create('just-testing')
     ->addItem([$customfield_testing_1])
     ->addItem([$customfield_testing_4])
     ->addList(Translation::get('List label'), [$customfield_testing_2, $customfield_testing_3, $customfield_testing_5])
+    ->build();
+
+$settingfield_1 = SettingField::create('just-testing', 'text')->setLabel(Translation::get('Custom field 1'));
+
+$settingspage_1 = SettingsPage::create('yay', 'yay', 'yay')
+    ->addItem([$settingfield_1])
     ->build();
