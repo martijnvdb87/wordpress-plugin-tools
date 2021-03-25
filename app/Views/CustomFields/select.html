@@ -2,9 +2,11 @@
     <p>
         <label for="{{ id }}">{{ label }}</label>
     </p>
-    <select id="{{ id }}" name="{{ name }}{% if index > -1 %}[{{ index }}]{% endif %}">
-        {% for option in options %}
-            <option value="{{ option.key }}" {% if option.selected %}selected{% endif %}>{{ option.value }}</option>
-        {% endfor %}
-    </select>
+    <fieldset>
+        <select id="{{ id }}" name="{{ name }}{% if index > -1 %}[{{ index }}]{% endif %}">
+            {% for option in options %}
+                <option value="{{ option.key }}" {% if option.selected %}selected{% endif %}>{{ option.value }}</option>
+            {% endfor %}
+        </select>
+    </fieldset>
 </section>

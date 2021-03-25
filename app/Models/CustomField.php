@@ -164,6 +164,25 @@ class CustomField {
             'index' => isset($this->index) ? $this->index : false
         ]);
     }
+    
+    private function radioCustomField()
+    {
+        $value = $this->getValue($this->index);
+        foreach($this->options as &$option) {
+            if($option['key'] == $value) {
+                $option['checked'] = true;
+                break;
+            }
+        }
+
+        return Template::build('CustomFields/radio.html', [
+            'id' => uniqid("{$this->id}-", true),
+            'name' => $this->id,
+            'label' => $this->label,
+            'options' => $this->options,
+            'index' => isset($this->index) ? $this->index : false
+        ]);
+    }
 
     private function checkboxCustomField()
     {
@@ -175,7 +194,6 @@ class CustomField {
             'index' => isset($this->index) ? $this->index : false
         ]);
     }
-
 
     private function numberCustomField()
     {

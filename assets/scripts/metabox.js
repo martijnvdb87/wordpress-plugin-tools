@@ -53,7 +53,11 @@ function mvdb_wp_metabox_new_lists_input_id(list, input) {
     var newId = parts.join('-');
 
     var label = list.querySelector('label[for="' + id + '"]');
-    label.setAttribute('for', newId);
+
+    if (label) {
+        label.setAttribute('for', newId);
+    }
+
     input.id = newId;
 }
 
@@ -75,15 +79,29 @@ function mvdb_wp_metabox_order(e, target) {
 
     var container = list.parentElement;
 
+    var radioChecked = []
+    var inputs = container.querySelectorAll('input[type="radio"]');
+    inputs.forEach(function(input) {
+        if (input.checked) {
+            radioChecked.push(input);
+        }
+    });
+
     if (target.getAttribute('data-order') == 'higher') {
         if (list.previousElementSibling) {
-            container.insertBefore(list, list.previousElementSibling)
+            container.insertBefore(list, list.previousElementSibling);
         }
     } else {
         if (list.nextElementSibling) {
-            container.insertBefore(list.nextElementSibling, list)
+            container.insertBefore(list.nextElementSibling, list);
         }
     }
+
+    setTimeout(function() {
+        radioChecked.forEach(function(input) {
+            input.checked = true;
+        });
+    });
 
     var parent = list.parentElement;
     mvdb_wp_metabox_reindex_inputs(parent);

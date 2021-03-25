@@ -6,7 +6,7 @@
         <fieldset>
             {% for option in options %}
             <label>
-                <input type="radio" name="{{ name }}{% if is_array %}[]{% endif %}" value="{{ option.key }}" {% if option.checked %}checked="checked"{% endif %}>
+                <input type="radio" name="{{ name }}" value="{{ option.key }}" {% if option.checked %}checked="checked"{% endif %}>
                 {{ option.value }}
             </label>
             <br> {% endfor %}

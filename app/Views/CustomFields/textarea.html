@@ -2,7 +2,7 @@
     <p>
         <label for="{{ id }}">{{ label }}</label>
     </p>
-    <p>
+    <fieldset>
         <textarea id="{{ id }}" name="{{ name }}{% if index > -1 %}[{{ index }}]{% endif %}" class="large-text" rows="8">{{ value }}</textarea>
-    </p>
+    </fieldset>
 </section>

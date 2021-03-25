@@ -2,7 +2,7 @@
     <p>
         <label for="{{ id }}">{{ label }}</label>
     </p>
-    <p>
+    <fieldset>
         <input type="number" id="{{ id }}" name="{{ name }}{% if index > -1 %}[{{ index }}]{% endif %}" value="{{ value }}" class="small-text" min="{{ min }}" max="{{ max }}" step="{{ step }}">
-    </p>
+    </fieldset>
 </section>

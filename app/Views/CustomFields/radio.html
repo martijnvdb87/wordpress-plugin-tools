@@ -1,0 +1,13 @@
+<section>
+    <p>
+        <label for="{{ id }}">{{ label }}</label>
+    </p>
+    <fieldset>
+        {% for option in options %}
+        <label>
+            <input type="radio" name="{{ name }}{% if index > -1 %}[{{ index }}]{% endif %}" value="{{ option.key }}" {% if option.checked %}checked="checked"{% endif %}>
+            {{ option.value }}
+        </label>
+        <br> {% endfor %}
+    </fieldset>
+</section>

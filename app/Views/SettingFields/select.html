@@ -3,10 +3,12 @@
         <label for="{{ id }}">{{ label }}</label>
     </th>
     <td>
-        <select id="{{ id }}" name="{{ name }}{% if is_array %}[]{% endif %}">
-            {% for option in options %}
-                <option value="{{ option.key }}" {% if option.selected %}selected{% endif %}>{{ option.value }}</option>
-            {% endfor %}
-        </select>
+        <fieldset>
+            <select id="{{ id }}" name="{{ name }}{% if is_array %}[]{% endif %}">
+                {% for option in options %}
+                    <option value="{{ option.key }}" {% if option.selected %}selected{% endif %}>{{ option.value }}</option>
+                {% endfor %}
+            </select>
+        </fieldset>
     </td>
 </tr>
