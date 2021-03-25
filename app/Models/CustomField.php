@@ -209,6 +209,23 @@ class CustomField {
         ]);
     }
 
+    private function editorCustomField()
+    {
+        if(isset($this->index)) {
+            return;
+        }
+
+        ob_start(); 
+        wp_editor(htmlspecialchars_decode($this->getValue()), $this->id);
+        $editor = ob_get_contents();
+        ob_end_clean();
+
+        return Template::build('CustomFields/editor.html', [
+            'label' => $this->label,
+            'editor' => $editor
+        ]);
+    }
+
     public function setIndex($index)
     {
         $this->index = $index;

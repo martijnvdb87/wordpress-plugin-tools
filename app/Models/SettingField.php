@@ -170,7 +170,6 @@ class SettingField {
         ]);
     }
 
-
     private function numberSettingField()
     {
         return Template::build('SettingFields/number.html', [
@@ -181,6 +180,19 @@ class SettingField {
             'min' => $this->min,
             'max' => $this->max,
             'step' => $this->step
+        ]);
+    }
+
+    private function editorSettingField()
+    {
+        ob_start(); 
+        wp_editor(htmlspecialchars_decode($this->getValue()), $this->id);
+        $editor = ob_get_contents();
+        ob_end_clean();
+
+        return Template::build('SettingFields/editor.html', [
+            'label' => $this->label,
+            'editor' => $editor
         ]);
     }
 

@@ -55,6 +55,7 @@ class SettingsPage {
                 }
             }
         }
+
         echo Template::build('SettingsPage/page.html', [
             'id' => uniqid("{$this->id}-", true),
             'page_title' => $this->page_title,
