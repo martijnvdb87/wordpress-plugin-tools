@@ -26,8 +26,10 @@ function mvdb_wp_metabox_new_list(e, target) {
 
     var inputs = newList.querySelectorAll('input, textarea');
     for (var i = 0; i < inputs.length; i++) {
-        inputs[i].setAttribute('value', '');
-        inputs[i].value = null;
+        if (!(inputs[i].type == 'radio' || inputs[i].type == 'checkbox')) {
+            inputs[i].setAttribute('value', '');
+            inputs[i].value = null;
+        }
 
         mvdb_wp_metabox_new_lists_input_id(newList, inputs[i]);
     }
