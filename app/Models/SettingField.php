@@ -74,6 +74,15 @@ class SettingField {
         return $this;
     }
 
+    public function addOptions($options = [])
+    {
+        foreach($options as $key => $value) {
+            $this->addOption($key, $value);
+        }
+
+        return $this;
+    }
+
     public function addOption($key, $value)
     {
         $this->options[] = [
@@ -114,7 +123,7 @@ class SettingField {
 
     private function selectSettingField()
     {
-        $value = $this->getValue($this->index);
+        $value = $this->getValue();
         foreach($this->options as &$option) {
             if($option['key'] == $value) {
                 $option['selected'] = true;
@@ -123,6 +132,26 @@ class SettingField {
         }
 
         return Template::build('SettingFields/select.html', [
+            'id' => $this->id,
+            'name' => $this->id,
+            'label' => $this->label,
+            'options' => $this->options,
+            'value' => esc_attr($this->getValue())
+        ]);
+    }
+
+    private function radioSettingField()
+    {
+        $value = $this->getValue();
+
+        foreach($this->options as &$option) {
+            if($option['key'] == $value) {
+                $option['checked'] = true;
+                break;
+            }
+        }
+
+        return Template::build('SettingFields/radio.html', [
             'id' => $this->id,
             'name' => $this->id,
             'label' => $this->label,
@@ -153,13 +182,6 @@ class SettingField {
             'max' => $this->max,
             'step' => $this->step
         ]);
-    }
-
-    public function setIndex($index)
-    {
-        $this->index = $index;
-
-        return $this;
     }
 
     public function build()

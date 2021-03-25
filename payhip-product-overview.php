@@ -45,8 +45,19 @@ $metabox_testing = MetaBox::create('just-testing')
     ->addList(Translation::get('List label'), [$customfield_testing_2, $customfield_testing_3, $customfield_testing_5])
     ->build();
 
-$settingfield_1 = SettingField::create('just-testing', 'text')->setLabel(Translation::get('Custom field 1'));
-
 $settingspage_1 = SettingsPage::create('yay', 'yay', 'yay')
-    ->addItem([$settingfield_1])
+    ->addItem([
+        SettingField::create('just-testing', 'text')->setLabel(Translation::get('Custom field 1')),
+        SettingField::create('just-testing2', 'textarea')->setLabel(Translation::get('Custom field 1')),
+        SettingField::create('just-testing3', 'number')->setLabel(Translation::get('Custom field 1')),
+        SettingField::create('just-testing4', 'checkbox')->setLabel(Translation::get('Custom field 1')),
+        SettingField::create('just-testing5', 'select')->setLabel(Translation::get('Custom field 1'))->addOptions([
+            'yay' => 'Yay',
+            'sdfsf' => 'sdfsdf',
+        ]),
+        SettingField::create('just-testing5', 'radio')->setLabel(Translation::get('Custom field 1'))->addOptions([
+            'yay' => 'Yay',
+            'sdfsf' => 'sdfsdf',
+        ]),
+    ])
     ->build();

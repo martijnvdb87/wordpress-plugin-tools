@@ -1,0 +1,11 @@
+<tr valign="top">
+    <th scope="row">
+        {{ label }}
+    </th>
+    <td>
+        <label for="{{ id }}">
+            <input type="checkbox" id="{{ id }}" name="{{ name }}{% if is_array %}[]{% endif %}" value="1" {{ checked }}>
+            {{ label }}
+        </label>
+    </td>
+</tr>

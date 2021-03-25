@@ -97,6 +97,15 @@ class CustomField {
         update_post_meta($post->ID, $this->id, $_POST[$this->id]);
     }
 
+    public function addOptions($options = [])
+    {
+        foreach($options as $key => $value) {
+            $this->addOption($key, $value);
+        }
+
+        return $this;
+    }
+
     public function addOption($key, $value)
     {
         $this->options[] = [

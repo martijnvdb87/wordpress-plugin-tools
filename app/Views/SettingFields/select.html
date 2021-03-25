@@ -1,0 +1,12 @@
+<tr valign="top">
+    <th scope="row">
+        <label for="{{ id }}">{{ label }}</label>
+    </th>
+    <td>
+        <select id="{{ id }}" name="{{ name }}{% if is_array %}[]{% endif %}">
+            {% for option in options %}
+                <option value="{{ option.key }}" {% if option.selected %}selected{% endif %}>{{ option.value }}</option>
+            {% endfor %}
+        </select>
+    </td>
+</tr>

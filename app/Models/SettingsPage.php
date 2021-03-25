@@ -165,8 +165,6 @@ class SettingsPage {
                     register_setting("{$this->id}-settings-group", $field->getId());
                 }
             }
-            // register_setting("{$this->id}-settings-group", 'some_other_option');
-            // register_setting("{$this->id}-settings-group", 'option_etc');
         });
     }
 }
