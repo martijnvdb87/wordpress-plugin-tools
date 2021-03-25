@@ -131,7 +131,7 @@ class CustomField {
             'name' => $this->id,
             'label' => $this->label,
             'value' => $this->getValue($this->index),
-            'is_array' => isset($this->index)
+            'index' => isset($this->index) ? $this->index : false
         ]);
     }
 
@@ -142,7 +142,7 @@ class CustomField {
             'name' => $this->id,
             'label' => $this->label,
             'value' => $this->getValue($this->index),
-            'is_array' => isset($this->index)
+            'index' => isset($this->index) ? $this->index : false
         ]);
     }
 
@@ -161,7 +161,7 @@ class CustomField {
             'name' => $this->id,
             'label' => $this->label,
             'options' => $this->options,
-            'is_array' => isset($this->index)
+            'index' => isset($this->index) ? $this->index : false
         ]);
     }
 
@@ -172,7 +172,7 @@ class CustomField {
             'name' => $this->id,
             'label' => $this->label,
             'checked' => $this->getValue($this->index) ? 'checked' : '',
-            'is_array' => isset($this->index)
+            'index' => isset($this->index) ? $this->index : false
         ]);
     }
 
@@ -187,7 +187,7 @@ class CustomField {
             'min' => $this->min,
             'max' => $this->max,
             'step' => $this->step,
-            'is_array' => isset($this->index)
+            'index' => isset($this->index) ? $this->index : false
         ]);
     }
 

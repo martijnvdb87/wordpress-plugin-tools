@@ -33,6 +33,8 @@ function mvdb_wp_metabox_new_list(e, target) {
     }
 
     lists.append(newList);
+
+    mvdb_wp_metabox_reindex_inputs(lists);
 }
 
 function mvdb_wp_metabox_new_lists_input_id(list, input) {
@@ -82,6 +84,9 @@ function mvdb_wp_metabox_order(e, target) {
             container.insertBefore(list.nextElementSibling, list)
         }
     }
+
+    var parent = list.parentElement;
+    mvdb_wp_metabox_reindex_inputs(parent);
 }
 
 function mvdb_wp_metabox_delete_list(e, target) {
@@ -106,5 +111,23 @@ function mvdb_wp_metabox_delete_list(e, target) {
 }
 
 function mvdb_wp_metabox_delete_list_confirm(list) {
-    list.parentElement.removeChild(list);
+    var parent = list.parentElement;
+    parent.removeChild(list);
+
+    mvdb_wp_metabox_reindex_inputs(parent);
+}
+
+function mvdb_wp_metabox_reindex_inputs(container) {
+    var lists = container.querySelectorAll('li');
+
+    lists.forEach(function(list, index) {
+        var inputs = list.querySelectorAll('input, textarea');
+        for (var i = 0; i < inputs.length; i++) {
+
+            var name = inputs[i].name;
+            name = name.replace(/\[(\d+?)?\]/, '[' + index + ']');
+
+            inputs[i].name = name;
+        }
+    });
 }
