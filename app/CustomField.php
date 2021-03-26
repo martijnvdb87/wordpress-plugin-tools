@@ -53,6 +53,11 @@ class CustomField {
 
         return $value;
     }
+
+    public function getSettingItemValue()
+    {
+        return get_option($this->id);
+    }
     
     public function getId()
     {
@@ -236,5 +241,105 @@ class CustomField {
     public function build()
     {
         return $this->{"{$this->type}CustomField"}();
+    }
+
+    private function textSettingField()
+    {
+        return Template::build('SettingFields/text.html', [
+            'id' => $this->id,
+            'name' => $this->id,
+            'label' => $this->label,
+            'value' => esc_attr($this->getSettingItemValue())
+        ]);
+    }
+
+    private function textareaSettingField()
+    {
+        return Template::build('SettingFields/textarea.html', [
+            'id' => $this->id,
+            'name' => $this->id,
+            'label' => $this->label,
+            'value' => esc_attr($this->getSettingItemValue())
+        ]);
+    }
+
+    private function selectSettingField()
+    {
+        $value = $this->getSettingItemValue();
+        foreach($this->options as &$option) {
+            if($option['key'] == $value) {
+                $option['selected'] = true;
+                break;
+            }
+        }
+
+        return Template::build('SettingFields/select.html', [
+            'id' => $this->id,
+            'name' => $this->id,
+            'label' => $this->label,
+            'options' => $this->options,
+            'value' => esc_attr($this->getSettingItemValue())
+        ]);
+    }
+
+    private function radioSettingField()
+    {
+        $value = $this->getSettingItemValue();
+
+        foreach($this->options as &$option) {
+            if($option['key'] == $value) {
+                $option['checked'] = true;
+                break;
+            }
+        }
+
+        return Template::build('SettingFields/radio.html', [
+            'id' => $this->id,
+            'name' => $this->id,
+            'label' => $this->label,
+            'options' => $this->options,
+            'value' => esc_attr($this->getSettingItemValue())
+        ]);
+    }
+
+    private function checkboxSettingField()
+    {
+        return Template::build('SettingFields/checkbox.html', [
+            'id' => $this->id,
+            'name' => $this->id,
+            'label' => $this->label,
+            'checked' => $this->getSettingItemValue() ? 'checked' : ''
+        ]);
+    }
+
+    private function numberSettingField()
+    {
+        return Template::build('SettingFields/number.html', [
+            'id' => $this->id,
+            'name' => $this->id,
+            'label' => $this->label,
+            'value' => esc_attr($this->getSettingItemValue()),
+            'min' => $this->min,
+            'max' => $this->max,
+            'step' => $this->step
+        ]);
+    }
+
+    private function editorSettingField()
+    {
+        ob_start(); 
+        wp_editor(htmlspecialchars_decode($this->getSettingItemValue()), $this->id);
+        $editor = ob_get_contents();
+        ob_end_clean();
+
+        return Template::build('SettingFields/editor.html', [
+            'label' => $this->label,
+            'editor' => $editor
+        ]);
+    }
+
+    public function settingBuild()
+    {
+        return $this->{"{$this->type}SettingField"}();
     }
 }

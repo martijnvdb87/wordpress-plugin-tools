@@ -16,7 +16,7 @@
 
 namespace Martijnvdb\WordpressPluginTools;
 
-use Martijnvdb\WordpressPluginTools\{PostType, CustomField, MetaBox, SettingsPage, SettingField};
+use Martijnvdb\WordpressPluginTools\{PostType, CustomField, MetaBox, SettingsPage};
 
 require_once __DIR__ . '/vendor/autoload.php';
 
@@ -52,18 +52,15 @@ $metabox_testing = MetaBox::create('just-testing')
 
 $settingspage_1 = SettingsPage::create('yay', 'yay', 'yay')
     ->addItem([
-        SettingField::create('just-testing', 'text')->setLabel('Custom field 1'),
-        SettingField::create('just-testing2', 'textarea')->setLabel('Custom field 1'),
-        SettingField::create('just-testing3', 'number')->setLabel('Custom field 1'),
-        SettingField::create('just-testing4', 'checkbox')->setLabel('Custom field 1'),
-        SettingField::create('just-testing5', 'select')->setLabel('Custom field 1')->addOptions([
+        CustomField::create('just-testing', 'text')->setLabel('Custom field 1'),
+        CustomField::create('just-testing1', 'text')->setLabel('Custom field 2'),
+        CustomField::create('just-testing2', 'textarea')->setLabel('Custom field 3'),
+        CustomField::create('just-testing3', 'number')->setLabel('Custom field 4'),
+        CustomField::create('just-testing4', 'checkbox')->setLabel('Custom field 5'),
+        CustomField::create('just-testing5', 'radio')->setLabel('Custom field 6')->addOptions([
             'yay' => 'Yay',
             'sdfsf' => 'sdfsdf',
         ]),
-        SettingField::create('just-testing5', 'radio')->setLabel('Custom field 1')->addOptions([
-            'yay' => 'Yay',
-            'sdfsf' => 'sdfsdf',
-        ]),
-        SettingField::create('just-testing6', 'editor')->setLabel('Custom field 1'),
+        CustomField::create('just-testing6', 'editor')->setLabel('Custom field 7')
     ])
     ->build();

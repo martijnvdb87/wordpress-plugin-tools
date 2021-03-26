@@ -51,7 +51,7 @@ class SettingsPage {
 
             if($item['type'] == 'field') {
                 foreach($item['fields'] as $field) {
-                    $fields[] = $field->build();
+                    $fields[] = $field->settingBuild();
                 }
             }
         }
@@ -143,7 +143,7 @@ class SettingsPage {
         }
 
         $setting_fields = array_filter($setting_fields, function($item) {
-            return $item instanceof SettingField;
+            return $item instanceof CustomField;
         });
         
         $this->items[] = [
