@@ -12,21 +12,47 @@ class SettingsPage {
     private $icon;
     private $items = [];
 
-    public function __construct($id, $page_title, $menu_title)
+    public function __construct($id)
     {
         $id = sanitize_key($id);
         $this->id = $id;
         $this->setSlug($id);
-
-        $this->page_title = $page_title;
-        $this->menu_title = $menu_title;
         
         return $this;
     }
 
-    public static function create($id, $page_title, $menu_title)
+    public static function create($id)
     {
-        return new self($id, $page_title, $menu_title);
+        return new self($id);
+    }
+
+    private function convertToLabel($value)
+    {
+        $value = preg_replace('/[-_]/', ' ', $value);
+        $value = ucwords($value);
+        return $value;
+    }
+
+    public function setPageTitle($value)
+    {
+        $this->page_title = $value;
+        
+        if(empty($this->menu_title)) {
+            $this->menu_title = $this->convertToLabel($value);
+        }
+        
+        return $this;
+    }
+
+    public function setMenuTitle($value)
+    {
+        $this->menu_title = $value;
+
+        if(empty($this->page_title)) {
+            $this->page_title = $this->convertToLabel($value);
+        }
+        
+        return $this;
     }
 
     public function setSlug($value)
@@ -156,6 +182,14 @@ class SettingsPage {
 
     public function build()
     {
+        if(empty($this->page_title)) {
+            $this->page_title = $this->convertToLabel($this->id);
+        }
+        
+        if(empty($this->menu_title)) {
+            $this->menu_title = $this->convertToLabel($this->id);
+        }
+
         add_action('admin_menu', function() {
             add_menu_page($this->page_title, $this->menu_title, $this->capability, $this->slug, [$this, 'settingsPageContent'], $this->icon);
         });

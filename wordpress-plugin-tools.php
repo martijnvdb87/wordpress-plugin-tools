@@ -33,16 +33,16 @@ $payhip_products_posttype = PostType::create('payhip-products')
     //->addBlockEditor()
     ->build();
 
-$customfield_testing_1 = CustomField::create('just-testing', 'text')->setLabel('Custom field 1');
-$customfield_testing_2 = CustomField::create('just-testing1', 'text')->setLabel('Custom field 2');
-$customfield_testing_3 = CustomField::create('just-testing2', 'textarea')->setLabel('Custom field 3');
-$customfield_testing_4 = CustomField::create('just-testing3', 'number')->setLabel('Custom field 4');
-$customfield_testing_5 = CustomField::create('just-testing4', 'checkbox')->setLabel('Custom field 5');
-$customfield_testing_6 = CustomField::create('just-testing5', 'radio')->setLabel('Custom field 6')->addOptions([
+$customfield_testing_1 = CustomField::create('just-testing')->setType('text')->setLabel('Custom field 1');
+$customfield_testing_2 = CustomField::create('just-testing1')->setType('text')->setLabel('Custom field 2');
+$customfield_testing_3 = CustomField::create('just-testing2')->setType('textarea')->setLabel('Custom field 3');
+$customfield_testing_4 = CustomField::create('just-testing3')->setType('number')->setLabel('Custom field 4');
+$customfield_testing_5 = CustomField::create('just-testing4')->setType('checkbox')->setLabel('Custom field 5');
+$customfield_testing_6 = CustomField::create('just-testing5')->setType('radio')->setLabel('Custom field 6')->addOptions([
     'yay' => 'Yay',
     'sdfsf' => 'sdfsdf',
     ]);
-$customfield_testing_7 = CustomField::create('just-testing6', 'editor')->setLabel('Custom field 7');
+$customfield_testing_7 = CustomField::create('just-testing6')->setType('editor')->setLabel('Custom field 7');
 
 $metabox_testing = MetaBox::create('just-testing')
     ->addItem([$customfield_testing_1])
@@ -50,17 +50,19 @@ $metabox_testing = MetaBox::create('just-testing')
     ->addList('List label', [$customfield_testing_2, $customfield_testing_3, $customfield_testing_5, $customfield_testing_6])
     ->build();
 
-$settingspage_1 = SettingsPage::create('yay', 'yay', 'yay')
+$settingspage_1 = SettingsPage::create('yay')
+    ->setPageTitle('Page Title')
+    ->setMenuTitle('Menu Title')
     ->addItem([
-        CustomField::create('just-testing', 'text')->setLabel('Custom field 1'),
-        CustomField::create('just-testing1', 'text')->setLabel('Custom field 2'),
-        CustomField::create('just-testing2', 'textarea')->setLabel('Custom field 3'),
-        CustomField::create('just-testing3', 'number')->setLabel('Custom field 4'),
-        CustomField::create('just-testing4', 'checkbox')->setLabel('Custom field 5'),
-        CustomField::create('just-testing5', 'radio')->setLabel('Custom field 6')->addOptions([
+        CustomField::create('just-testing')->setType('text')->setLabel('Custom field 1'),
+        CustomField::create('just-testing1')->setType('text')->setLabel('Custom field 2'),
+        CustomField::create('just-testing2')->setType('textarea')->setLabel('Custom field 3'),
+        CustomField::create('just-testing3')->setType('number')->setLabel('Custom field 4'),
+        CustomField::create('just-testing4')->setType('checkbox')->setLabel('Custom field 5'),
+        CustomField::create('just-testing5')->setType('radio')->setLabel('Custom field 6')->addOptions([
             'yay' => 'Yay',
             'sdfsf' => 'sdfsdf',
         ]),
-        CustomField::create('just-testing6', 'editor')->setLabel('Custom field 7')
+        CustomField::create('just-testing6')->setType('editor')->setLabel('Custom field 7')
     ])
     ->build();

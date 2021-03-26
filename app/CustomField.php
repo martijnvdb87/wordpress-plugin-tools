@@ -21,19 +21,15 @@ class CustomField {
     {
         $id = sanitize_key($id);
         $this->id = $id;
-
-        if(isset($type)) {
-            $this->type = $type;
-        }
         
         add_action('save_post', [$this, 'save']);
 
         return $this;
     }
 
-    public static function create($id, $type = null)
+    public static function create($id)
     {
-        return new self($id, $type);
+        return new self($id);
     }
 
     public static function getItemValue($id, $index = null)
