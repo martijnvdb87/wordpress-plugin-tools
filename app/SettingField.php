@@ -1,10 +1,10 @@
 <?php
 
-namespace Martijnvdb\WordpressPluginTools\Models;
+namespace Martijnvdb\WordpressPluginTools;
 
-use Martijnvdb\WordpressPluginTools\Models\Template;
+use Martijnvdb\WordpressPluginTools\Template;
 
-class CustomField {
+class SettingField {
 
     private $id;
     private $title;
@@ -25,8 +25,6 @@ class CustomField {
         if(isset($type)) {
             $this->type = $type;
         }
-        
-        add_action('save_post', [$this, 'save']);
 
         return $this;
     }
@@ -36,22 +34,9 @@ class CustomField {
         return new self($id, $type);
     }
 
-    public static function getItemValue($id, $index = null)
+    public static function getItemValue($id)
     {
-        global $post;
-
-        $value = '';
-        
-        $post_meta = get_post_meta($post->ID, $id, true);
-        
-        if(is_array($post_meta) && isset($index)) {
-            $value = $post_meta[$index];
-
-        } else {
-            $value = $post_meta;
-        }
-
-        return $value;
+        return get_option($id);
     }
     
     public function getId()
@@ -89,14 +74,6 @@ class CustomField {
         return $this;
     }
 
-    public function save()
-    {
-        global $post;
-        if(empty($_POST)) return;
-
-        update_post_meta($post->ID, $this->id, $_POST[$this->id]);
-    }
-
     public function addOptions($options = [])
     {
         foreach($options as $key => $value) {
@@ -117,38 +94,36 @@ class CustomField {
         return $this;
     }
 
-    public function getValue($index = null)
+    public function getValue()
     {
-        return self::getItemValue($this->id, $index);
+        return self::getItemValue($this->id);
 
         return $value;
     }
 
-    private function textCustomField()
+    private function textSettingField()
     {
-        return Template::build('CustomFields/text.html', [
-            'id' => uniqid("{$this->id}-", true),
+        return Template::build('SettingFields/text.html', [
+            'id' => $this->id,
             'name' => $this->id,
             'label' => $this->label,
-            'value' => $this->getValue($this->index),
-            'index' => isset($this->index) ? $this->index : false
+            'value' => esc_attr($this->getValue())
         ]);
     }
 
-    private function textareaCustomField()
+    private function textareaSettingField()
     {
-        return Template::build('CustomFields/textarea.html', [
-            'id' => uniqid("{$this->id}-", true),
+        return Template::build('SettingFields/textarea.html', [
+            'id' => $this->id,
             'name' => $this->id,
             'label' => $this->label,
-            'value' => $this->getValue($this->index),
-            'index' => isset($this->index) ? $this->index : false
+            'value' => esc_attr($this->getValue())
         ]);
     }
 
-    private function selectCustomField()
+    private function selectSettingField()
     {
-        $value = $this->getValue($this->index);
+        $value = $this->getValue();
         foreach($this->options as &$option) {
             if($option['key'] == $value) {
                 $option['selected'] = true;
@@ -156,18 +131,19 @@ class CustomField {
             }
         }
 
-        return Template::build('CustomFields/select.html', [
-            'id' => uniqid("{$this->id}-", true),
+        return Template::build('SettingFields/select.html', [
+            'id' => $this->id,
             'name' => $this->id,
             'label' => $this->label,
             'options' => $this->options,
-            'index' => isset($this->index) ? $this->index : false
+            'value' => esc_attr($this->getValue())
         ]);
     }
-    
-    private function radioCustomField()
+
+    private function radioSettingField()
     {
-        $value = $this->getValue($this->index);
+        $value = $this->getValue();
+
         foreach($this->options as &$option) {
             if($option['key'] == $value) {
                 $option['checked'] = true;
@@ -175,66 +151,53 @@ class CustomField {
             }
         }
 
-        return Template::build('CustomFields/radio.html', [
-            'id' => uniqid("{$this->id}-", true),
+        return Template::build('SettingFields/radio.html', [
+            'id' => $this->id,
             'name' => $this->id,
             'label' => $this->label,
             'options' => $this->options,
-            'index' => isset($this->index) ? $this->index : false
+            'value' => esc_attr($this->getValue())
         ]);
     }
 
-    private function checkboxCustomField()
+    private function checkboxSettingField()
     {
-        return Template::build('CustomFields/checkbox.html', [
-            'id' => uniqid("{$this->id}-", true),
+        return Template::build('SettingFields/checkbox.html', [
+            'id' => $this->id,
             'name' => $this->id,
             'label' => $this->label,
-            'checked' => $this->getValue($this->index) ? 'checked' : '',
-            'index' => isset($this->index) ? $this->index : false
+            'checked' => $this->getValue() ? 'checked' : ''
         ]);
     }
 
-    private function numberCustomField()
+    private function numberSettingField()
     {
-        return Template::build('CustomFields/number.html', [
-            'id' => uniqid("{$this->id}-", true),
+        return Template::build('SettingFields/number.html', [
+            'id' => $this->id,
             'name' => $this->id,
             'label' => $this->label,
-            'value' => $this->getValue($this->index),
+            'value' => esc_attr($this->getValue()),
             'min' => $this->min,
             'max' => $this->max,
-            'step' => $this->step,
-            'index' => isset($this->index) ? $this->index : false
+            'step' => $this->step
         ]);
     }
 
-    private function editorCustomField()
+    private function editorSettingField()
     {
-        if(isset($this->index)) {
-            return;
-        }
-
         ob_start(); 
         wp_editor(htmlspecialchars_decode($this->getValue()), $this->id);
         $editor = ob_get_contents();
         ob_end_clean();
 
-        return Template::build('CustomFields/editor.html', [
+        return Template::build('SettingFields/editor.html', [
             'label' => $this->label,
             'editor' => $editor
         ]);
     }
 
-    public function setIndex($index)
-    {
-        $this->index = $index;
-
-        return $this;
-    }
-
     public function build()
     {
-        return $this->{"{$this->type}CustomField"}();
+        return $this->{"{$this->type}SettingField"}();
     }
 }

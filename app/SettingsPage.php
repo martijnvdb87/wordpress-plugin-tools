@@ -1,6 +1,6 @@
 <?php
 
-namespace Martijnvdb\WordpressPluginTools\Models;
+namespace Martijnvdb\WordpressPluginTools;
 
 class SettingsPage {
 

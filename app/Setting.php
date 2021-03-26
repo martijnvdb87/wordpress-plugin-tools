@@ -1,6 +1,6 @@
 <?php
 
-namespace Martijnvdb\WordpressPluginTools\Models;
+namespace Martijnvdb\WordpressPluginTools;
 
 class Setting {
     private static $config;
@@ -8,7 +8,7 @@ class Setting {
     private static function parseConfig()
     {
         if(!isset(self::$config)) {
-            self::$config = parse_ini_file(__DIR__ . '/../../config.ini');
+            self::$config = parse_ini_file(__DIR__ . '/../config.ini');
         }
     }
 

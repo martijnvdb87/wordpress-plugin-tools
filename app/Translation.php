@@ -1,8 +1,8 @@
 <?php
 
-namespace Martijnvdb\WordpressPluginTools\Models;
+namespace Martijnvdb\WordpressPluginTools;
 
-use Martijnvdb\WordpressPluginTools\Models\Setting;
+use Martijnvdb\WordpressPluginTools\Setting;
 
 class Translation {
     private $dir;

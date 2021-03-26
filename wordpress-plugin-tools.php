@@ -16,7 +16,7 @@
 
 namespace Martijnvdb\WordpressPluginTools;
 
-use Martijnvdb\WordpressPluginTools\Models\{PostType, CustomField, MetaBox, Translation, SettingsPage, SettingField};
+use Martijnvdb\WordpressPluginTools\{PostType, CustomField, MetaBox, Translation, SettingsPage, SettingField};
 
 require_once __DIR__ . '/vendor/autoload.php';
 

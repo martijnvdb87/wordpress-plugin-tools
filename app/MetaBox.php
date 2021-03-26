@@ -1,8 +1,8 @@
 <?php
 
-namespace Martijnvdb\WordpressPluginTools\Models;
+namespace Martijnvdb\WordpressPluginTools;
 
-use Martijnvdb\WordpressPluginTools\Models\CustomField;
+use Martijnvdb\WordpressPluginTools\CustomField;
 
 class MetaBox {
 
@@ -26,12 +26,12 @@ class MetaBox {
 
     public function loadScript()
     {
-        wp_enqueue_script('martijnvdb-wordpress-tools-metabox-script', plugins_url( 'assets/scripts/metabox.js', __DIR__ . '/../../../' ));
+        wp_enqueue_script('martijnvdb-wordpress-tools-metabox-script', plugins_url( 'assets/scripts/metabox.js', __DIR__ . '/../../' ));
     }
 
     public function loadStyle()
     {
-        wp_enqueue_style('martijnvdb-wordpress-tools-metabox-style', plugins_url( 'assets/styles/metabox.css', __DIR__ . '/../../../' ));
+        wp_enqueue_style('martijnvdb-wordpress-tools-metabox-style', plugins_url( 'assets/styles/metabox.css', __DIR__ . '/../../' ));
     }
 
     private function convertToLabel($value)
