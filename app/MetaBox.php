@@ -14,6 +14,10 @@ class MetaBox {
 
     private $items = [];
     private $custom_fields = [];
+    private $text = [
+        'new' => 'New',
+        'delete_confirm' => 'Are you sure you want to delete this item?',
+    ];
 
     public function __construct($id)
     {
@@ -96,14 +100,27 @@ class MetaBox {
                     'label' => $item['label'],
                     'fields' => $fields,
                     'lists' => $lists,
-                    'translate' => [
-                        'new' => Translation::get('New'),
-                        'delete_confirm' => Translation::get('Are you sure you want to delete this item?'),
-                    ]
+                    'text' => $this->text
                 ]);
             }
         }
 	}
+
+    public function setTexts($texts = [])
+    {
+        foreach($texts as $key => $value) {
+            $this->setText($key, $value);
+        }
+
+        return $this;
+    }
+
+    public function setText($key, $value)
+    {
+        $this->text[$key] = $value;
+
+        return $this;
+    }
 
     public function addItem($custom_fields = [])
     {

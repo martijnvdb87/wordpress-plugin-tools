@@ -16,7 +16,7 @@
 
 namespace Martijnvdb\WordpressPluginTools;
 
-use Martijnvdb\WordpressPluginTools\{PostType, CustomField, MetaBox, Translation, SettingsPage, SettingField};
+use Martijnvdb\WordpressPluginTools\{PostType, CustomField, MetaBox, SettingsPage, SettingField};
 
 require_once __DIR__ . '/vendor/autoload.php';
 
@@ -33,37 +33,37 @@ $payhip_products_posttype = PostType::create('payhip-products')
     //->addBlockEditor()
     ->build();
 
-$customfield_testing_1 = CustomField::create('just-testing', 'text')->setLabel(Translation::get('Custom field 1'));
-$customfield_testing_2 = CustomField::create('just-testing1', 'text')->setLabel(Translation::get('Custom field 2'));
-$customfield_testing_3 = CustomField::create('just-testing2', 'textarea')->setLabel(Translation::get('Custom field 3'));
-$customfield_testing_4 = CustomField::create('just-testing3', 'number')->setLabel(Translation::get('Custom field 4'));
-$customfield_testing_5 = CustomField::create('just-testing4', 'checkbox')->setLabel(Translation::get('Custom field 5'));
-$customfield_testing_6 = CustomField::create('just-testing5', 'radio')->setLabel(Translation::get('Custom field 6'))->addOptions([
+$customfield_testing_1 = CustomField::create('just-testing', 'text')->setLabel('Custom field 1');
+$customfield_testing_2 = CustomField::create('just-testing1', 'text')->setLabel('Custom field 2');
+$customfield_testing_3 = CustomField::create('just-testing2', 'textarea')->setLabel('Custom field 3');
+$customfield_testing_4 = CustomField::create('just-testing3', 'number')->setLabel('Custom field 4');
+$customfield_testing_5 = CustomField::create('just-testing4', 'checkbox')->setLabel('Custom field 5');
+$customfield_testing_6 = CustomField::create('just-testing5', 'radio')->setLabel('Custom field 6')->addOptions([
     'yay' => 'Yay',
     'sdfsf' => 'sdfsdf',
     ]);
-$customfield_testing_7 = CustomField::create('just-testing6', 'editor')->setLabel(Translation::get('Custom field 7'));
+$customfield_testing_7 = CustomField::create('just-testing6', 'editor')->setLabel('Custom field 7');
 
 $metabox_testing = MetaBox::create('just-testing')
     ->addItem([$customfield_testing_1])
     ->addItem([$customfield_testing_4, $customfield_testing_7])
-    ->addList(Translation::get('List label'), [$customfield_testing_2, $customfield_testing_3, $customfield_testing_5, $customfield_testing_6])
+    ->addList('List label', [$customfield_testing_2, $customfield_testing_3, $customfield_testing_5, $customfield_testing_6])
     ->build();
 
 $settingspage_1 = SettingsPage::create('yay', 'yay', 'yay')
     ->addItem([
-        SettingField::create('just-testing', 'text')->setLabel(Translation::get('Custom field 1')),
-        SettingField::create('just-testing2', 'textarea')->setLabel(Translation::get('Custom field 1')),
-        SettingField::create('just-testing3', 'number')->setLabel(Translation::get('Custom field 1')),
-        SettingField::create('just-testing4', 'checkbox')->setLabel(Translation::get('Custom field 1')),
-        SettingField::create('just-testing5', 'select')->setLabel(Translation::get('Custom field 1'))->addOptions([
+        SettingField::create('just-testing', 'text')->setLabel('Custom field 1'),
+        SettingField::create('just-testing2', 'textarea')->setLabel('Custom field 1'),
+        SettingField::create('just-testing3', 'number')->setLabel('Custom field 1'),
+        SettingField::create('just-testing4', 'checkbox')->setLabel('Custom field 1'),
+        SettingField::create('just-testing5', 'select')->setLabel('Custom field 1')->addOptions([
             'yay' => 'Yay',
             'sdfsf' => 'sdfsdf',
         ]),
-        SettingField::create('just-testing5', 'radio')->setLabel(Translation::get('Custom field 1'))->addOptions([
+        SettingField::create('just-testing5', 'radio')->setLabel('Custom field 1')->addOptions([
             'yay' => 'Yay',
             'sdfsf' => 'sdfsdf',
         ]),
-        SettingField::create('just-testing6', 'editor')->setLabel(Translation::get('Custom field 1')),
+        SettingField::create('just-testing6', 'editor')->setLabel('Custom field 1'),
     ])
     ->build();

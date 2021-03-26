@@ -158,6 +158,13 @@ class PostType {
         return $this;
     }
 
+    public function setIcon($value)
+    {
+        $this->options['menu_icon'] = $value;
+        
+        return $this;
+    }
+
     public function register()
     {
         register_post_type($this->id, $this->options);
