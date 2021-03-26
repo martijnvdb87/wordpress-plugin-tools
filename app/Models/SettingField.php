@@ -1,8 +1,8 @@
 <?php
 
-namespace Martijnvdb\PayhipProductOverview\Models;
+namespace Martijnvdb\WordpressPluginTools\Models;
 
-use Martijnvdb\PayhipProductOverview\Models\Template;
+use Martijnvdb\WordpressPluginTools\Models\Template;
 
 class SettingField {
 

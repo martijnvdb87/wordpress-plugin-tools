@@ -1,8 +1,8 @@
 <?php
 
-namespace Martijnvdb\PayhipProductOverview\Models;
+namespace Martijnvdb\WordpressPluginTools\Models;
 
-use Martijnvdb\PayhipProductOverview\Models\Setting;
+use Martijnvdb\WordpressPluginTools\Models\Setting;
 
 class Translation {
     private $dir;

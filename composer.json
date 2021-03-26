@@ -1,11 +1,11 @@
 {
-    "name": "martijnvdb/wp-plugin-payhip-product-overview",
+    "name": "martijnvdb/wordpress-plugin-tools",
     "require": {
         "twig/twig": "^3.0"
     },
     "autoload": {
         "psr-4": {
-            "Martijnvdb\\PayhipProductOverview\\": "app/"
+            "Martijnvdb\\WordpressPluginTools\\": "app/"
         }
     }
 }

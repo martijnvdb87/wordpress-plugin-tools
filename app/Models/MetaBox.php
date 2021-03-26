@@ -1,8 +1,8 @@
 <?php
 
-namespace Martijnvdb\PayhipProductOverview\Models;
+namespace Martijnvdb\WordpressPluginTools\Models;
 
-use Martijnvdb\PayhipProductOverview\Models\CustomField;
+use Martijnvdb\WordpressPluginTools\Models\CustomField;
 
 class MetaBox {
 

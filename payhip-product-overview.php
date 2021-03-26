@@ -1,22 +1,22 @@
 <?php
 /**
- * Plugin Name:       Payhip Product Overview
- * Plugin URI:        https://github.com/martijnvdb87/wp-plugin-payhip-product-overview
- * Description:       Generates an overview page of your Payhip products.
- * Version:           1.0.0
+ * Plugin Name:       Wordpress Plugin Tools
+ * Plugin URI:        https://github.com/martijnvdb87/wordpress-plugin-tools
+ * Description:       A simple library to quickly create Wordpress plugins.
+ * Version:           0.1.0
  * Requires at least: 5.2
  * Requires PHP:      7.0
  * Author:            Martijn van den Bosch
  * Author URI:        https://martijnvandenbosch.com
  * License:           GPL v2 or later
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
- * Text Domain:       payhip-product-overview
+ * Text Domain:       wordpress-plugin-tools
  * Domain Path:       /languages
  */
 
-namespace Martijnvdb\PayhipProductOverview;
+namespace Martijnvdb\WordpressPluginTools;
 
-use Martijnvdb\PayhipProductOverview\Models\{PostType, CustomField, MetaBox, Translation, SettingsPage, SettingField};
+use Martijnvdb\WordpressPluginTools\Models\{PostType, CustomField, MetaBox, Translation, SettingsPage, SettingField};
 
 require_once __DIR__ . '/vendor/autoload.php';
 

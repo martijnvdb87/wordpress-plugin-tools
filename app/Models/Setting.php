@@ -1,6 +1,6 @@
 <?php
 
-namespace Martijnvdb\PayhipProductOverview\Models;
+namespace Martijnvdb\WordpressPluginTools\Models;
 
 class Setting {
     private static $config;
