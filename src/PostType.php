@@ -198,7 +198,7 @@ class PostType {
     public function setIcon(string $value): PostType
     {
         $this->options['show_in_menu'] = true;
-        $this->options['menu_position'] = (string) $value;
+        $this->options['menu_icon'] = (string) $value;
         
         return $this;
     }
