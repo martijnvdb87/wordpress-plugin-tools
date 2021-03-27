@@ -242,7 +242,9 @@ class CustomField {
     public function save(): void
     {
         global $post;
-        if(empty($_POST)) return;
+        if(empty($_POST) || !isset($_POST[$this->id])) {
+            return;
+        }
 
         update_post_meta($post->ID, $this->id, $_POST[$this->id]);
     }
