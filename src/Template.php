@@ -10,6 +10,8 @@
  * @license http://opensource.org/licenses/MIT MIT
  */
 
+declare(strict_types = 1);
+
 namespace Martijnvdb\WordpressPluginTools;
 
 // Prevent direct access
@@ -17,9 +19,17 @@ if(!defined('ABSPATH')) {
     exit;
 }
 
+/**
+ * Template provides methods for working with post types in Wordpress.
+ */
 class Template {
 
-    public static function build($file_path, $data = [])
+    /**
+     * Build the Template.
+     * 
+     * @return string
+     */
+    public static function build(string $file_path, array $data = []): string
     {
         $loader = new \Twig\Loader\FilesystemLoader(__DIR__ . '/../resources/views');
         $twig = new \Twig\Environment($loader);

@@ -10,6 +10,8 @@
  * @license http://opensource.org/licenses/MIT MIT
  */
 
+declare(strict_types = 1);
+
 namespace Martijnvdb\WordpressPluginTools;
 
 // Prevent direct access
@@ -17,38 +19,96 @@ if(!defined('ABSPATH')) {
     exit;
 }
 
+/**
+ * SettingsPage provides methods for working with settings in Wordpress.
+ */
 class SettingsPage {
 
+    /**
+     * The SettingsPage id.
+     * @var string
+     */
     private $id;
+
+    /**
+     * The SettingsPage page title.
+     * @var string
+     */
     private $page_title;
+
+    /**
+     * The SettingsPage menu title.
+     * @var string
+     */
     private $menu_title;
+
+    /**
+     * The SettingsPage capability.
+     * @var string
+     */
     private $capability = 'administrator';
+
+    /**
+     * The SettingsPage slu.
+     * @var string
+     */
     private $slug;
+
+    /**
+     * The SettingsPage icon.
+     * @var string
+     */
     private $icon;
+
+    /**
+     * An array of CustomFields which should be shown in the SettingsPage.
+     * @var array
+     */
     private $items = [];
 
-    public function __construct($id)
+    /**
+     * Creates a new instance of the SettingsPage class.
+     * 
+     * @param  string $id
+     */
+    public function __construct(string $id)
     {
         $id = sanitize_key($id);
         $this->id = $id;
         $this->setSlug($id);
-        
-        return $this;
     }
 
-    public static function create($id)
+    /**
+     * Create a new instance of the SettingsPage class.
+     * 
+     * @param  string $id
+     * @return SettingsPage
+     */
+    public static function create(string $id): SettingsPage
     {
         return new self($id);
     }
 
-    private function convertToLabel($value)
+    /**
+     * Converts an ID into a label text.
+     * 
+     * @param  string $value
+     * @return string
+     */
+    private function convertToLabel(string $value): string
     {
         $value = preg_replace('/[-_]/', ' ', $value);
         $value = ucwords($value);
         return $value;
     }
 
-    public function setPageTitle($value)
+    /**
+     * Set the SettingsPage page title.
+     * 
+     * @param  string $value
+     * @return SettingsPage
+     */
+    public function setPageTitle(string $value): SettingsPage
     {
         $this->page_title = $value;
         
@@ -59,7 +119,13 @@ class SettingsPage {
         return $this;
     }
 
-    public function setMenuTitle($value)
+    /**
+     * Set the SettingsPage menu title.
+     * 
+     * @param  string $value
+     * @return SettingsPage
+     */
+    public function setMenuTitle(string $value): SettingsPage
     {
         $this->menu_title = $value;
 
@@ -70,21 +136,38 @@ class SettingsPage {
         return $this;
     }
 
-    public function setSlug($value)
+    /**
+     * Set the SettingsPage slug.
+     * 
+     * @param  string $value
+     * @return SettingsPage
+     */
+    public function setSlug(string $value): SettingsPage
     {
         $this->slug = $value;
         
         return $this;
     }
 
-    public function setIcon($value)
+    /**
+     * Set the SettingsPage icon.
+     * 
+     * @param  string $value
+     * @return SettingsPage
+     */
+    public function setIcon(string $value): SettingsPage
     {
         $this->icon = $value;
         
         return $this;
     }
 
-    public function settingsPageContent()
+    /**
+     * The SettingsPage content callback function.
+     * 
+     * @return void
+     */
+    public function settingsPageContent(): void
     {
         $fields = [];
 
@@ -96,7 +179,6 @@ class SettingsPage {
             }
         }
 
-
         echo Template::build('SettingsPage/page.html', [
             'id' => uniqid("{$this->id}-", true),
             'page_title' => $this->page_title,
@@ -107,7 +189,13 @@ class SettingsPage {
         ]);
     }
 
-    private function settingsFields() {
+    /**
+     * Get the default settings fields.
+     * 
+     * @return string
+     */
+    private function settingsFields(): string
+    {
         $output = '<input type="hidden" name="option_page" value="' . esc_attr("{$this->id}-settings-group") . '" />';
         $output .= '<input type="hidden" name="action" value="update" />';
         $output .= wp_nonce_field("{$this->id}-settings-group-options", '_wpnonce', true, false);
@@ -115,11 +203,17 @@ class SettingsPage {
         return $output;
     }
 
-    private function doSettingsSections($page) {
+    /**
+     * Get the default settings sections.
+     * 
+     * @return string
+     */
+    private function doSettingsSections(string $page): string
+    {
         global $wp_settings_sections, $wp_settings_fields;
      
         if(!isset($wp_settings_sections[$page])) {
-            return;
+            return '';
         }
 
         $output = '';
@@ -144,11 +238,17 @@ class SettingsPage {
         return $output;
     }
 
-    private function doSettingsFields($page, $section) {
+    /**
+     * Get the default settings fields.
+     * 
+     * @return string
+     */
+    private function doSettingsFields(string $page, string $section): string
+    {
         global $wp_settings_fields;
      
         if (!isset($wp_settings_fields[$page][$section])) {
-            return;
+            return '';
         }
 
         $output = '';
@@ -177,7 +277,13 @@ class SettingsPage {
         return $output;
     }
 
-    public function addItem($setting_fields = [])
+    /**
+     * Add one or more CustomField to a SettingsPage.
+     * 
+     * @param  array $setting_fields
+     * @return SettingsPage
+     */
+    public function addItem(array $setting_fields = []): SettingsPage
     {
         if(!is_array($setting_fields)) {
             $setting_fields = [$setting_fields];
@@ -199,7 +305,12 @@ class SettingsPage {
         return $this;
     }
 
-    public function build()
+    /**
+     * Build the SettingsPage.
+     * 
+     * @return void
+     */
+    public function build(): void
     {
         if(empty($this->page_title)) {
             $this->page_title = $this->convertToLabel($this->id);
