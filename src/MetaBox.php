@@ -251,12 +251,28 @@ class MetaBox {
     }
 
     /**
+     * Add a CustomField to a MetaBox.
+     * 
+     * @param  CustomField $custom_field
+     * @return MetaBox
+     */
+    public function addItem(CustomField $custom_field): MetaBox
+    {
+        $this->items[] = [
+            'type' => 'field',
+            'fields' => [$custom_field]
+        ];
+
+        return $this;
+    }
+
+    /**
      * Add one or more CustomField to a MetaBox.
      * 
      * @param  array $custom_fields
      * @return MetaBox
      */
-    public function addItem(array $custom_fields = []): MetaBox
+    public function addItems(array $custom_fields): MetaBox
     {
         $custom_fields = is_array($custom_fields) ? $custom_fields : [$custom_fields];
 
@@ -264,10 +280,9 @@ class MetaBox {
             return $item instanceof CustomField;
         });
         
-        $this->items[] = [
-            'type' => 'field',
-            'fields' => $custom_fields
-        ];
+        foreach($custom_fields as $custom_field) {
+            $this->addItem($custom_field);
+        }
 
         return $this;
     }

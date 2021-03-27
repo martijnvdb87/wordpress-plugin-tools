@@ -280,10 +280,28 @@ class SettingsPage {
     /**
      * Add one or more CustomField to a SettingsPage.
      * 
+     * @param  CustomField $setting_field
+     * @return SettingsPage
+     */
+    public function addItem(CustomField $setting_field): SettingsPage
+    {
+        $setting_field->setPageType('setting');
+        
+        $this->items[] = [
+            'type' => 'field',
+            'fields' => $setting_field
+        ];
+
+        return $this;
+    }
+
+    /**
+     * Add one or more CustomField to a SettingsPage.
+     * 
      * @param  array $setting_fields
      * @return SettingsPage
      */
-    public function addItem(array $setting_fields = []): SettingsPage
+    public function addItems(array $setting_fields = []): SettingsPage
     {
         if(!is_array($setting_fields)) {
             $setting_fields = [$setting_fields];
@@ -294,13 +312,8 @@ class SettingsPage {
         });
 
         foreach($setting_fields as $setting_field) {
-            $setting_field->setPageType('setting');
+            $this->addItem($setting_field);
         }
-        
-        $this->items[] = [
-            'type' => 'field',
-            'fields' => $setting_fields
-        ];
 
         return $this;
     }
