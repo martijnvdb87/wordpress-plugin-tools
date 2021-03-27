@@ -21,9 +21,9 @@ if(!defined('ABSPATH')) {
     exit;
 }
 
-  /**
-   * CustomFields provides methods for working with custom fields in Wordpress.
-   */
+/**
+ * CustomFields provides methods for working with custom fields in Wordpress.
+ */
 class CustomField {
 
     /**
@@ -87,7 +87,7 @@ class CustomField {
     private $options = [];
 
     /**
-     * Create a new instance of the CustomField class and register the 'save_post' action.
+     * Creates a new instance of the CustomField class and register the 'save_post' action.
      * 
      * @param  string $id
      */
@@ -462,7 +462,7 @@ class CustomField {
 
 
     /**
-     * Set the index of the value array.
+     * Build the CustomField.
      *
      * @return string
      */

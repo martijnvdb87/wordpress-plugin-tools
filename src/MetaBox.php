@@ -10,84 +10,168 @@
  * @license http://opensource.org/licenses/MIT MIT
  */
 
+declare(strict_types = 1);
+
 namespace Martijnvdb\WordpressPluginTools;
+
+use Martijnvdb\WordpressPluginTools\CustomField;
 
 // Prevent direct access
 if(!defined('ABSPATH')) {
     exit;
 }
 
-use Martijnvdb\WordpressPluginTools\CustomField;
-
+/**
+ * MetaBox provides methods for working with metaboxes in Wordpress.
+ */
 class MetaBox {
-
+    
+    /**
+     * The MetaBox id.
+     * @var string
+     */
     private $id;
+
+    /**
+     * The MetaBox title.
+     * @var string
+     */
     private $title = '';
-    private $posttypes = [];
+
+    /**
+     * An array of posttype ID's in which the MetaMox has to be shown.
+     * @var array
+     */
+    private $post_types = [];
+
+    /**
+     * The context within the screen where the metabox should display.
+     * @var string
+     */
     private $context = 'normal';
+
+    /**
+     * The priority within the context where the box should show.
+     * @var string
+     */
     private $priority = 'default';
 
+    /**
+     * An array of CustomFields and Lists which should be shown in the MetaBox.
+     * @var array
+     */
     private $items = [];
-    private $custom_fields = [];
+
+    /**
+     * An array of texts that are used in the Metabox template.
+     * @var array
+     */
     private $text = [
         'new' => 'New',
         'delete_confirm' => 'Are you sure you want to delete this item?',
     ];
 
-    public function __construct($id)
+    /**
+     * Creates a new instance of the MetaBox class.
+     * 
+     * @param  string $id
+     */
+    public function __construct(string $id)
     {
         $id = sanitize_key($id);
         $this->id = "martijnvdb-wordpress-plugin-tools-metabox-$id";
         $this->title = $this->convertToLabel($id);
-        
-        return $this;
     }
 
-    public function loadScript()
+    /**
+     * Create a new instance of the MetaBox class.
+     * 
+     * @param  string $id
+     * @return MetaBox
+     */
+    public static function create($id): MetaBox
+    {
+        return new self($id);
+    }
+
+    /**
+     * Loads the MetaBox scripts.
+     * 
+     * @return void
+     */
+    public function loadScript(): void
     {
         wp_enqueue_script('martijnvdb-wordpress-plugin-tools-metabox-script', plugins_url( 'resources/js/metabox.js', __DIR__ . '/../../' ));
     }
 
-    public function loadStyle()
+    /**
+     * Loads the MetaBox styles.
+     * 
+     * @return void
+     */
+    public function loadStyle(): void
     {
         wp_enqueue_style('martijnvdb-wordpress-plugin-tools-metabox-style', plugins_url( 'resources/css/metabox.css', __DIR__ . '/../../' ));
     }
 
-    private function convertToLabel($value)
+    /**
+     * Converts an ID into a label text.
+     * 
+     * @param  string $value
+     * @return string
+     */
+    private function convertToLabel(string $value): string
     {
         $value = preg_replace('/[-_]/', ' ', $value);
         $value = ucwords($value);
         return $value;
     }
 
-    public static function create($id)
+    /**
+     * Register the PostTypes in which the MetaBox should be shown.
+     * 
+     * @param  array $post_types
+     * @return MetaBox
+     */
+    public function setPostType(array $post_types = []): MetaBox
     {
-        return new self($id);
-    }
-
-    public function setPosttype($posttypes = [])
-    {
-        if(!is_array($posttypes)) {
-            $posttypes = [$posttypes];
+        if(!is_array($post_types)) {
+            $post_types = [$post_types];
         }
 
-        $this->posttypes = $posttypes;
+        $this->post_types = $post_types;
 
         return $this;
     }
 
-    public function addPosttype($posttype)
+    /**
+     * Add a PostType in which the MetaBox should be shown.
+     * 
+     * @param  string $post_type
+     * @return MetaBox
+     */
+    public function addPostType(string $post_type): MetaBox
     {
-        $this->posttypes[] = $posttype;
+        $this->post_types[] = $post_type;
 
         return $this;
     }
 
-    public function metaBox()
+    /**
+     * Register the MetaBox.
+     * 
+     * @return void
+     */
+    public function metaBox(): void
     {
-        add_meta_box($this->id, $this->title, [$this, 'metaBoxContent'], $this->posttypes, $this->context, $this->priority);
+        add_meta_box($this->id, $this->title, [$this, 'metaBoxContent'], $this->post_types, $this->context, $this->priority);
     }
 
+    /**
+     * The MetaBox content callback function.
+     * 
+     * @return void
+     */
 	public function metaBoxContent()
     {
         foreach($this->items as $item) {
@@ -139,7 +223,13 @@ class MetaBox {
         }
 	}
 
-    public function setTexts($texts = [])
+    /**
+     * Set an array with texts.
+     * 
+     * @param  array $texts
+     * @return MetaBox
+     */
+    public function setTexts(array $texts = []): MetaBox
     {
         foreach($texts as $key => $value) {
             $this->setText($key, $value);
@@ -148,14 +238,27 @@ class MetaBox {
         return $this;
     }
 
-    public function setText($key, $value)
+    /**
+     * Set a text.
+     * 
+     * @param  string $key
+     * @param  string $value
+     * @return MetaBox
+     */
+    public function setText($key, $value): MetaBox
     {
         $this->text[$key] = $value;
 
         return $this;
     }
 
-    public function addItem($custom_fields = [])
+    /**
+     * Add one or more CustomField to a MetaBox.
+     * 
+     * @param  array $custom_fields
+     * @return MetaBox
+     */
+    public function addItem(array $custom_fields = []): MetaBox
     {
         if(!is_array($custom_fields)) {
             $custom_fields = [$custom_fields];
@@ -173,7 +276,14 @@ class MetaBox {
         return $this;
     }
 
-    public function addList($label, $custom_fields = [], $max_lists = null)
+    /**
+     * Add a list with CustomField to a MetaBox.
+     * 
+     * @param  string $label
+     * @param  array $custom_fields
+     * @return MetaBox
+     */
+    public function addList(string $label, array $custom_fields = []): MetaBox
     {
         if(!is_array($custom_fields)) {
             $custom_fields = [$custom_fields];
@@ -192,7 +302,12 @@ class MetaBox {
         return $this;
     }
 
-    public function build()
+    /**
+     * Build the MetaBox.
+     * 
+     * @return void
+     */
+    public function build(): void
     {
         add_action('admin_enqueue_scripts', [$this, 'loadScript']);
         add_action('admin_enqueue_scripts', [$this, 'loadStyle']);
