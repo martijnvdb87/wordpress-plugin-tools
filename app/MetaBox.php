@@ -50,6 +50,24 @@ class MetaBox {
         return new self($id);
     }
 
+    public function setPosttype($posttypes = [])
+    {
+        if(!is_array($posttypes)) {
+            $posttypes = [$posttypes];
+        }
+
+        $this->posttypes = $posttypes;
+
+        return $this;
+    }
+
+    public function addPosttype($posttype)
+    {
+        $this->posttypes[] = $posttype;
+
+        return $this;
+    }
+
     public function metaBox()
     {
         add_meta_box($this->id, $this->title, [$this, 'metaBoxContent'], $this->posttypes, $this->context, $this->priority);

@@ -20,8 +20,42 @@ use Martijnvdb\WordpressPluginTools\{PostType, CustomField, MetaBox, SettingsPag
 
 require_once __DIR__ . '/vendor/autoload.php';
 
-$payhip_products_posttype = PostType::create('payhip-products')
-    ->setSlug('shop')
+
+$metabox_testing = MetaBox::create('just-testing')
+    ->addItem([
+        CustomField::create('just-testing')
+            ->setType('text')
+            ->setLabel('Custom field 1'),
+
+        CustomField::create('just-testing1')
+            ->setType('text')
+            ->setLabel('Custom field 2'),
+    ])
+
+    ->addList('List label', [
+        CustomField::create('just-testing2')
+            ->setType('textarea')
+            ->setLabel('Custom field 3'),
+
+        CustomField::create('just-testing3')
+            ->setType('number')
+            ->setLabel('Custom field 4'),
+
+        CustomField::create('just-testing4')
+            ->setType('checkbox')
+            ->setLabel('Custom field 5'),
+
+        CustomField::create('just-testing5')
+            ->setType('radio')
+            ->setLabel('Custom field 6')
+            ->addOptions([
+                'yay' => 'Yay',
+                'sdfsf' => 'sdfsdf',
+            ]),
+    ]);
+    
+$payhip_products_posttype = PostType::create('my-posttype')
+    ->setSlug('my-slug')
     ->setPublic()
     ->addSupport(['thumbnail'])
     ->setLabels([
@@ -30,39 +64,53 @@ $payhip_products_posttype = PostType::create('payhip-products')
         'add_new' => 'New Product',
         'edit_item' => 'Edit Product',
     ])
-    //->addBlockEditor()
+    ->addBlockEditor()
+    ->addMetaBox([
+        $metabox_testing
+    ])
     ->build();
 
-$customfield_testing_1 = CustomField::create('just-testing')->setType('text')->setLabel('Custom field 1');
-$customfield_testing_2 = CustomField::create('just-testing1')->setType('text')->setLabel('Custom field 2');
-$customfield_testing_3 = CustomField::create('just-testing2')->setType('textarea')->setLabel('Custom field 3');
-$customfield_testing_4 = CustomField::create('just-testing3')->setType('number')->setLabel('Custom field 4');
-$customfield_testing_5 = CustomField::create('just-testing4')->setType('checkbox')->setLabel('Custom field 5');
-$customfield_testing_6 = CustomField::create('just-testing5')->setType('radio')->setLabel('Custom field 6')->addOptions([
-    'yay' => 'Yay',
-    'sdfsf' => 'sdfsdf',
-    ]);
-$customfield_testing_7 = CustomField::create('just-testing6')->setType('editor')->setLabel('Custom field 7');
+    
+$payhip_products_posttypeq = PostType::create('my-yay')->setPublic()
+->addMetaBox([
+    $metabox_testing
+])->build();
 
-$metabox_testing = MetaBox::create('just-testing')
-    ->addItem([$customfield_testing_1])
-    ->addItem([$customfield_testing_4, $customfield_testing_7])
-    ->addList('List label', [$customfield_testing_2, $customfield_testing_3, $customfield_testing_5, $customfield_testing_6])
-    ->build();
+$metabox_testing->build();
 
 $settingspage_1 = SettingsPage::create('yay')
     ->setPageTitle('Page Title')
     ->setMenuTitle('Menu Title')
     ->addItem([
-        CustomField::create('just-testing')->setType('text')->setLabel('Custom field 1'),
-        CustomField::create('just-testing1')->setType('text')->setLabel('Custom field 2'),
-        CustomField::create('just-testing2')->setType('textarea')->setLabel('Custom field 3'),
-        CustomField::create('just-testing3')->setType('number')->setLabel('Custom field 4'),
-        CustomField::create('just-testing4')->setType('checkbox')->setLabel('Custom field 5'),
-        CustomField::create('just-testing5')->setType('radio')->setLabel('Custom field 6')->addOptions([
-            'yay' => 'Yay',
-            'sdfsf' => 'sdfsdf',
-        ]),
-        CustomField::create('just-testing6')->setType('editor')->setLabel('Custom field 7')
+        CustomField::create('just-testing')
+            ->setType('text')
+            ->setLabel('Custom field 1'),
+
+        CustomField::create('just-testing1')
+            ->setType('text')
+            ->setLabel('Custom field 2'),
+
+        CustomField::create('just-testing2')
+            ->setType('textarea')
+            ->setLabel('Custom field 3'),
+            
+        CustomField::create('just-testing3')
+            ->setType('number')
+            ->setLabel('Custom field 4'),
+        CustomField::create('just-testing4')
+            ->setType('checkbox')
+            ->setLabel('Custom field 5'),
+
+        CustomField::create('just-testing5')
+            ->setType('radio')
+            ->setLabel('Custom field 6')
+            ->addOptions([
+                'yay' => 'Yay',
+                'sdfsf' => 'sdfsdf',
+            ]),
+
+        CustomField::create('just-testing6')
+            ->setType('editor')
+            ->setLabel('Custom field 7')
     ])
     ->build();

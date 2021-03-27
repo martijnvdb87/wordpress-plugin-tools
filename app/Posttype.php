@@ -5,6 +5,7 @@ namespace Martijnvdb\WordpressPluginTools;
 class PostType {
 
     private $id;
+    private $metaboxes = [];
     private $options = [
         'supports' => ['title', 'editor'],
         'labels' => [],
@@ -31,6 +32,18 @@ class PostType {
         $value = preg_replace('/[-_]/', ' ', $value);
         $value = ucwords($value);
         return $value;
+    }
+
+    public function addMetaBox($metaboxes = [])
+    {
+        $metaboxes = is_array($metaboxes) ? $metaboxes : [$metaboxes];
+
+        foreach($metaboxes as $metabox) {
+            $this->metaboxes[] = $metabox;
+            $metabox->addPosttype($this->id);
+        }
+
+        return $this;
     }
 
     public function setLabel($key, $value = '')
@@ -172,6 +185,10 @@ class PostType {
 
     public function build()
     {
+        $metaboxes = $this->metaboxes;
+        foreach($metaboxes as $metabox) {
+            $metabox->build();
+        }
         add_action('init', [$this, 'register']);
     }
 }

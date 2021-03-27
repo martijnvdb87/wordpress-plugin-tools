@@ -74,13 +74,13 @@ class SettingsPage {
         $fields = [];
 
         foreach($this->items as $item) {
-
             if($item['type'] == 'field') {
                 foreach($item['fields'] as $field) {
-                    $fields[] = $field->settingBuild();
+                    $fields[] = $field->build();
                 }
             }
         }
+
 
         echo Template::build('SettingsPage/page.html', [
             'id' => uniqid("{$this->id}-", true),
@@ -171,6 +171,10 @@ class SettingsPage {
         $setting_fields = array_filter($setting_fields, function($item) {
             return $item instanceof CustomField;
         });
+
+        foreach($setting_fields as $setting_field) {
+            $setting_field->setPageType('setting');
+        }
         
         $this->items[] = [
             'type' => 'field',
