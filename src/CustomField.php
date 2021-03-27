@@ -126,7 +126,7 @@ class CustomField {
         $post_meta = get_post_meta($post->ID, $id, true);
         
         if(is_array($post_meta) && isset($index)) {
-            $value = $post_meta[$index];
+            $value = isset($post_meta[$index]) ? $post_meta[$index] : null;
 
         } else {
             $value = $post_meta;
@@ -459,7 +459,6 @@ class CustomField {
 
         return $this;
     }
-
 
     /**
      * Build the CustomField.

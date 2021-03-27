@@ -10,6 +10,8 @@
  * @license http://opensource.org/licenses/MIT MIT
  */
 
+declare(strict_types = 1);
+
 namespace Martijnvdb\WordpressPluginTools;
 
 // Prevent direct access
@@ -17,16 +19,38 @@ if(!defined('ABSPATH')) {
     exit;
 }
 
+/**
+ * PostType provides methods for working with post types in Wordpress.
+ */
 class PostType {
 
+    /**
+     * The PostType id.
+     * @var string
+     */
     private $id;
+
+    /**
+     * The MetaBoxes which should be shown in the PostType.
+     * @var array
+     */
     private $metaboxes = [];
+
+    /**
+     * The PostType options.
+     * @var array
+     */
     private $options = [
         'supports' => ['title', 'editor'],
         'labels' => [],
         'rewrite' => []
     ];
 
+    /**
+     * Creates a new instance of the PostType class.
+     * 
+     * @param  string $id
+     */
     public function __construct($id)
     {
         $id = sanitize_key($id);
@@ -37,19 +61,37 @@ class PostType {
         return $this;
     }
 
-    public static function create($id)
+    /**
+     * Create a new instance of the PostType class.
+     * 
+     * @param  string $id
+     * @return PostType
+     */
+    public static function create(string $id): PostType
     {
         return new self($id);
     }
 
-    private function convertToLabel($value)
+    /**
+     * Converts an ID into a label text.
+     * 
+     * @param  string $value
+     * @return string
+     */
+    private function convertToLabel(string $value): string
     {
         $value = preg_replace('/[-_]/', ' ', $value);
         $value = ucwords($value);
         return $value;
     }
 
-    public function addMetaBox($metaboxes = [])
+    /**
+     * Add MetaBox to PostType.
+     * 
+     * @param  array $metaboxes
+     * @return PostType
+     */
+    public function addMetaBox(array $metaboxes = []): PostType
     {
         $metaboxes = is_array($metaboxes) ? $metaboxes : [$metaboxes];
 
@@ -61,7 +103,14 @@ class PostType {
         return $this;
     }
 
-    public function setLabel($key, $value = '')
+    /**
+     * Set a label of the PostType.
+     * 
+     * @param  string $key
+     * @param  string $value
+     * @return PostType
+     */
+    public function setLabel(string $key, string $value = ''): PostType
     {
         if($key == 'name') {
             $this->options['label'] = $value;
@@ -72,7 +121,13 @@ class PostType {
         return $this;
     }
 
-    public function setLabels($values = [])
+    /**
+     * Set labels of the PostType.
+     * 
+     * @param  array $values
+     * @return PostType
+     */
+    public function setLabels(array $values = []): PostType
     {
         foreach($values as $key => $value) {
             $this->setLabel($key, $value);
@@ -81,42 +136,52 @@ class PostType {
         return $this;
     }
 
-    public function setDescription($value)
+    /**
+     * Set a description of the PostType.
+     * 
+     * @param  string $value
+     * @return PostType
+     */
+    public function setDescription(string $value): PostType
     {
         $this->options['description'] = $value;
         
         return $this;
     }
 
-    public function setPublic($value = true)
+    /**
+     * Set the accessibility of the PostType to public.
+     * 
+     * @param  bool $value
+     * @return PostType
+     */
+    public function setPublic(bool $value = true): PostType
     {
         $this->options['public'] = (boolean) $value;
         
         return $this;
     }
 
-    public function setHierarchical($value = true)
-    {
-        $this->options['hierarchical'] = (boolean) $value;
-        
-        return $this;
-    }
-
-    public function setSearchable($value = true)
+    /**
+     * Allow the PostType to be searchable.
+     * 
+     * @param  bool $value
+     * @return PostType
+     */
+    public function setSearchable(bool $value = true): PostType
     {
         $this->options['exclude_from_search'] = (boolean) !$value;
         
         return $this;
     }
 
-    public function setQueryable($value = true)
-    {
-        $this->options['publicly_queryable'] = (boolean) $value;
-        
-        return $this;
-    }
-
-    public function setMenuPosition($value)
+    /**
+     * Set the menu position of the PostType.
+     * 
+     * @param  bool $value
+     * @return PostType
+     */
+    public function setMenuPosition(int $value): PostType
     {
         $this->options['show_in_menu'] = true;
         $this->options['menu_position'] = (int) $value;
@@ -124,7 +189,13 @@ class PostType {
         return $this;
     }
 
-    public function setMenuIcon($value)
+    /**
+     * Set the menu icon of the PostType.
+     * 
+     * @param  string $value
+     * @return PostType
+     */
+    public function setIcon(string $value): PostType
     {
         $this->options['show_in_menu'] = true;
         $this->options['menu_position'] = (string) $value;
@@ -132,7 +203,13 @@ class PostType {
         return $this;
     }
 
-    public function addSupport($values = [])
+    /**
+     * Add support to the PostType.
+     * 
+     * @param  array $value
+     * @return PostType
+     */
+    public function addSupport(array $values = []): PostType
     {
         $values = is_array($values) ? $values : [$values];
 
@@ -145,7 +222,13 @@ class PostType {
         return $this;
     }
 
-    public function removeSupport($values = [])
+    /**
+     * Remove support from the PostType.
+     * 
+     * @param  array $value
+     * @return PostType
+     */
+    public function removeSupport(array $values = []): PostType
     {
         $values = is_array($values) ? $values : [$values];
         
@@ -158,47 +241,62 @@ class PostType {
         return $this;
     }
 
-    public function setSlug($value)
+    /**
+     * Set the slug of the PostType.
+     * 
+     * @param  string $value
+     * @return PostType
+     */
+    public function setSlug(string $value): PostType
     {
         $this->options['rewrite']['slug'] = $value;
         
         return $this;
     }
 
-    public function addBlockEditor($value = true)
+    /**
+     * Add support for the block editor to the PostType.
+     * 
+     * @param  bool $value
+     * @return PostType
+     */
+    public function addBlockEditor(bool $value = true): PostType
     {
         $this->options['show_in_rest'] = $value;
         
         return $this;
     }
 
-    public function addShowInRest($value = true)
-    {
-        $this->options['show_in_rest'] = $value;
-        
-        return $this;
-    }
-
-    public function addOption($key, $value)
+    /**
+     * Add any option supported by Wordpress to the PostType.
+     * 
+     * @param  string $key
+     * @param  string $value
+     * @return PostType
+     */
+    public function addOption(string $key, string $value): PostType
     {
         $this->options[$key] = $value;
         
         return $this;
     }
 
-    public function setIcon($value)
-    {
-        $this->options['menu_icon'] = $value;
-        
-        return $this;
-    }
-
-    public function register()
+    /**
+     * Register the PostType.
+     * 
+     * @return void
+     */
+    public function register(): void
     {
         register_post_type($this->id, $this->options);
     }
 
-    public function build()
+    /**
+     * Build the PostType.
+     * 
+     * @return void
+     */
+    public function build(): void
     {
         $metaboxes = $this->metaboxes;
         foreach($metaboxes as $metabox) {

@@ -135,9 +135,7 @@ class MetaBox {
      */
     public function setPostType(array $post_types = []): MetaBox
     {
-        if(!is_array($post_types)) {
-            $post_types = [$post_types];
-        }
+        $post_types = is_array($post_types) ? $post_types : [$post_types];
 
         $this->post_types = $post_types;
 
@@ -260,9 +258,7 @@ class MetaBox {
      */
     public function addItem(array $custom_fields = []): MetaBox
     {
-        if(!is_array($custom_fields)) {
-            $custom_fields = [$custom_fields];
-        }
+        $custom_fields = is_array($custom_fields) ? $custom_fields : [$custom_fields];
 
         $custom_fields = array_filter($custom_fields, function($item) {
             return $item instanceof CustomField;
@@ -285,9 +281,7 @@ class MetaBox {
      */
     public function addList(string $label, array $custom_fields = []): MetaBox
     {
-        if(!is_array($custom_fields)) {
-            $custom_fields = [$custom_fields];
-        }
+        $custom_fields = is_array($custom_fields) ? $custom_fields : [$custom_fields];
 
         $custom_fields = array_filter($custom_fields, function($item) {
             return $item instanceof CustomField;
