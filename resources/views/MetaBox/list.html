@@ -1,0 +1,40 @@
+<section id="{{ id }}" class="martijnvdb-wordpress-plugin-tools-metabox-section">
+    <p>
+        <label>{{ label }}</label>
+    </p>
+    <ol>
+        {% for list in lists %}
+        <li>
+            {% for field in list.fields %} {{ field | raw }} {% endfor %}
+            <div class="martijnvdb-wordpress-plugin-tools-metabox-section-actions">
+                <button type="button" class="martijnvdb-wordpress-plugin-tools-metabox-order martijnvdb-wordpress-plugin-tools-metabox-section-order-higher" data-order="higher">
+                    <span class="martijnvdb-wordpress-plugin-tools-metabox-section-order-higher-indicator" aria-hidden="true"></span>
+                </button>
+                <button type="button" class="martijnvdb-wordpress-plugin-tools-metabox-order martijnvdb-wordpress-plugin-tools-metabox-section-order-lower" data-order="lower">
+                    <span class="martijnvdb-wordpress-plugin-tools-metabox-section-order-lower-indicator" aria-hidden="true"></span>
+                </button>
+                <button type="button" class="martijnvdb-wordpress-plugin-tools-metabox-section-deletion" data-delete-confirm="{{ text.delete_confirm }}">
+                    <span class="martijnvdb-wordpress-plugin-tools-metabox-section-deletion-indication"></span>
+                </button>
+            </div>
+        </li>
+        {% endfor %}
+    </ol>
+    <template>
+        <li>
+            {% for field in fields %} {{ field | raw }} {% endfor %}
+            <div class="martijnvdb-wordpress-plugin-tools-metabox-section-actions">
+                <button type="button" class="martijnvdb-wordpress-plugin-tools-metabox-order martijnvdb-wordpress-plugin-tools-metabox-section-order-higher" data-order="higher">
+                    <span class="martijnvdb-wordpress-plugin-tools-metabox-section-order-higher-indicator" aria-hidden="true"></span>
+                </button>
+                <button type="button" class="martijnvdb-wordpress-plugin-tools-metabox-order martijnvdb-wordpress-plugin-tools-metabox-section-order-lower" data-order="lower">
+                    <span class="martijnvdb-wordpress-plugin-tools-metabox-section-order-lower-indicator" aria-hidden="true"></span>
+                </button>
+                <button type="button" class="martijnvdb-wordpress-plugin-tools-metabox-section-deletion" data-delete-confirm="{{ text.delete_confirm }}">
+                    <span class="martijnvdb-wordpress-plugin-tools-metabox-section-deletion-indication"></span>
+                </button>
+            </div>
+        </li>
+    </template>
+    <button type="button" class="button button-primary button-large martijnvdb-wordpress-plugin-tools-metabox-new-list">{{ text.new }}</button>
+</section>

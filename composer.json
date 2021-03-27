@@ -1,11 +1,31 @@
 {
     "name": "martijnvdb/wordpress-plugin-tools",
+    "description": "A simple library to quickly create Wordpress plugins",
+    "version": "1.0.0",
+    "type": "library",
+    "keywords": [
+        "wordpress",
+        "plugin",
+        "post type",
+        "custom fields"
+    ],
+    "homepage": "https://github.com/martijnvdb87/wordpress-plugin-tools",
+    "readme": "README.md",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Martijn van den Bosch",
+            "email": "martijn_van_den_bosch@hotmail.com",
+            "homepage": "https://martijnvandenbosch.com",
+            "role": "Developer"
+        }
+    ],
     "require": {
         "twig/twig": "^3.0"
     },
     "autoload": {
         "psr-4": {
-            "Martijnvdb\\WordpressPluginTools\\": "app/"
+            "Martijnvdb\\WordpressPluginTools\\": "src/"
         }
     }
 }

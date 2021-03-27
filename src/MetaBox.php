@@ -2,6 +2,11 @@
 
 namespace Martijnvdb\WordpressPluginTools;
 
+// Prevent direct access
+if(!defined('ABSPATH')) {
+    exit;
+}
+
 use Martijnvdb\WordpressPluginTools\CustomField;
 
 class MetaBox {
@@ -22,7 +27,7 @@ class MetaBox {
     public function __construct($id)
     {
         $id = sanitize_key($id);
-        $this->id = "martijnvdb-wordpress-tools-metabox-$id";
+        $this->id = "martijnvdb-wordpress-plugin-tools-metabox-$id";
         $this->title = $this->convertToLabel($id);
         
         return $this;
@@ -30,12 +35,12 @@ class MetaBox {
 
     public function loadScript()
     {
-        wp_enqueue_script('martijnvdb-wordpress-tools-metabox-script', plugins_url( 'assets/scripts/metabox.js', __DIR__ . '/../../' ));
+        wp_enqueue_script('martijnvdb-wordpress-plugin-tools-metabox-script', plugins_url( 'resources/js/metabox.js', __DIR__ . '/../../' ));
     }
 
     public function loadStyle()
     {
-        wp_enqueue_style('martijnvdb-wordpress-tools-metabox-style', plugins_url( 'assets/styles/metabox.css', __DIR__ . '/../../' ));
+        wp_enqueue_style('martijnvdb-wordpress-plugin-tools-metabox-style', plugins_url( 'resources/css/metabox.css', __DIR__ . '/../../' ));
     }
 
     private function convertToLabel($value)

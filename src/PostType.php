@@ -2,6 +2,11 @@
 
 namespace Martijnvdb\WordpressPluginTools;
 
+// Prevent direct access
+if(!defined('ABSPATH')) {
+    exit;
+}
+
 class PostType {
 
     private $id;

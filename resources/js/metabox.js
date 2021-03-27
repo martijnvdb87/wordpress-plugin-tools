@@ -1,9 +1,9 @@
 (function() {
     document.addEventListener('click', function(e) {
         var classActions = {
-            'martijnvdb-wordpress-tools-metabox-new-list': newList,
-            'martijnvdb-wordpress-tools-metabox-order': orderLists,
-            'martijnvdb-wordpress-tools-metabox-section-deletion': deleteList,
+            'martijnvdb-wordpress-plugin-tools-metabox-new-list': newList,
+            'martijnvdb-wordpress-plugin-tools-metabox-order': orderLists,
+            'martijnvdb-wordpress-plugin-tools-metabox-section-deletion': deleteList,
         }
 
         var classes = Object.keys(classActions);

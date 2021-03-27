@@ -2,6 +2,11 @@
 
 namespace Martijnvdb\WordpressPluginTools;
 
+// Prevent direct access
+if(!defined('ABSPATH')) {
+    exit;
+}
+
 use Martijnvdb\WordpressPluginTools\Template;
 
 class CustomField {
@@ -133,7 +138,7 @@ class CustomField {
 
     public function getValue($index = null)
     {
-        if($this->page_type = 'setting') {
+        if($this->page_type == 'setting') {
             return self::getSettingValue($this->id);
         }
 
