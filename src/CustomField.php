@@ -10,45 +10,114 @@
  * @license http://opensource.org/licenses/MIT MIT
  */
 
+declare(strict_types = 1);
+
 namespace Martijnvdb\WordpressPluginTools;
+
+use Martijnvdb\WordpressPluginTools\Template;
 
 // Prevent direct access
 if(!defined('ABSPATH')) {
     exit;
 }
 
-use Martijnvdb\WordpressPluginTools\Template;
-
+  /**
+   * CustomFields provides methods for working with custom fields in Wordpress.
+   */
 class CustomField {
 
+    /**
+     * The CustomField id.
+     * @var string
+     */
     private $id;
-    private $title;
-    private $type = 'text';
-    private $page_type = 'posttype';
-    private $index;
-    private $label;
-    private $min;
-    private $max;
-    private $step;
 
+    /**
+     * The CustomField title.
+     * @var string
+     */
+    private $title;
+
+    /**
+     * The CustomField type.
+     * @var string
+     */
+    private $type = 'text';
+
+    /**
+     * The type of the page where the CustomField will be shown.
+     * @var string
+     */
+    private $page_type = 'posttype';
+
+    /**
+     * The current index of the value array.
+     * @var int
+     */
+    private $index;
+    
+    /**
+     * The CustomField label.
+     * @var string
+     */
+    private $label;
+    
+    /**
+     * The minimal value possible if the CustomField type is a 'number' type.
+     * @var int
+     */
+    private $min;
+
+    /**
+     * The maximal value possible if the CustomField type is a 'number' type.
+     * @var int
+     */
+    private $max;
+
+    /**
+     * The size of the steps if the CustomField type is a 'number' type.
+     * @var int
+     */
+    private $step;
+    
+    /**
+     * All the posible options if the CustomField type is a 'select' or 'radio' type.
+     * @var array
+     */
     private $options = [];
 
-    public function __construct($id, $type = null)
+    /**
+     * Create a new instance of the CustomField class and register the 'save_post' action.
+     * 
+     * @param  string $id
+     */
+    public function __construct(string $id, ?string $type = null)
     {
         $id = sanitize_key($id);
         $this->id = $id;
         
         add_action('save_post', [$this, 'save']);
-
-        return $this;
     }
 
-    public static function create($id)
+    /**
+     * Create a new instance of the CustomField class.
+     * 
+     * @param  string $id
+     * @return CustomField
+     */
+    public static function create(string $id): CustomField
     {
         return new self($id);
     }
 
-    public static function getItemValue($id, $index = null)
+    /**
+     * Get the value of an item in a PostType.
+     * 
+     * @param  string $id
+     * @param  null|int $index
+     * @return mixed
+     */
+    public static function getItemValue(string $id, ?int $index = null)
     {
         global $post;
 
@@ -66,59 +135,111 @@ class CustomField {
         return $value;
     }
 
-    public static function getSettingValue($id)
+    /**
+     * Get the value of a Settings item.
+     * 
+     * @param  string $id
+     * @return mixed
+     */
+    public static function getSettingValue(string $id)
     {
         return get_option($id);
     }
 
-    public function setPageType($page_type)
+    /**
+     * Set the type of the page in which the CustomField is shown.
+     * 
+     * @param  string $page_type
+     * @return CustomField
+     */
+    public function setPageType(string $page_type): CustomField
     {
         $this->page_type = $page_type;
 
         return $this;
     }
 
-    public function getSettingItemValue()
-    {
-        return get_option($this->id);
-    }
-    
-    public function getId()
+    /**
+     * Get the ID of the current CustomField.
+     * 
+     * @return string
+     */
+    public function getId(): string
     {
         return $this->id;
     }
 
-    public function setType($value)
+    /**
+     * Set the type of the CustomField.
+     * 
+     * @param  string $value
+     * @return CustomField
+     */
+    public function setType(string $value): CustomField
     {
         $this->type = $value;
+
         return $this;
     }
 
-    public function setLabel($value)
+    /**
+     * Set the label of the CustomField.
+     * 
+     * @param  string $value
+     * @return CustomField
+     */
+    public function setLabel(string $value): CustomField
     {
         $this->label = $value;
+
         return $this;
     }
 
-    public function setMin($value)
+    /**
+     * Set the minimal value of the CustomField (only used if CustomField is type 'number').
+     * 
+     * @param  int $value
+     * @return CustomField
+     */
+    public function setMin(int $value): CustomField
     {
         $this->min = $value;
+
         return $this;
     }
 
-    public function setMax($value)
+    /**
+     * Set the maximal value of the CustomField (only used if CustomField is type 'number').
+     * 
+     * @param  int $value
+     * @return CustomField
+     */
+    public function setMax(int $value): CustomField
     {
         $this->max = $value;
+
         return $this;
     }
 
-    public function setStep($value)
+    /**
+     * Set the size of the steps of the CustomField (only used if CustomField is type 'number').
+     * 
+     * @param  int $value
+     * @return CustomField
+     */
+    public function setStep(int $value): CustomField
     {
         $this->step = $value;
+
         return $this;
     }
 
-    public function save()
+    /**
+     * Save the post.
+     * 
+     * @return void
+     */
+    public function save(): void
     {
         global $post;
         if(empty($_POST)) return;
@@ -126,7 +247,13 @@ class CustomField {
         update_post_meta($post->ID, $this->id, $_POST[$this->id]);
     }
 
-    public function addOptions($options = [])
+    /**
+     * Set multiple options for a 'select' or 'radio' CustomField.
+     * 
+     * @param  array $options
+     * @return CustomField
+     */
+    public function addOptions(array $options = []): CustomField
     {
         foreach($options as $key => $value) {
             $this->addOption($key, $value);
@@ -135,7 +262,14 @@ class CustomField {
         return $this;
     }
 
-    public function addOption($key, $value)
+    /**
+     * Set an option for a 'select' or 'radio' CustomField.
+     * 
+     * @param  string $key
+     * @param  string $value
+     * @return CustomField
+     */
+    public function addOption(string $key, string $value): CustomField
     {
         $this->options[] = [
             'key' => $key,
@@ -146,7 +280,13 @@ class CustomField {
         return $this;
     }
 
-    public function getValue($index = null)
+    /**
+     * Get the value of the current CustomField.
+     * 
+     * @param  null|int $index
+     * @return callable
+     */
+    public function getValue(?int $index = null)
     {
         if($this->page_type == 'setting') {
             return self::getSettingValue($this->id);
@@ -155,7 +295,12 @@ class CustomField {
         return self::getItemValue($this->id, $index);
     }
 
-    private function textCustomField()
+    /**
+     * Build CustomField type 'text'.
+     * 
+     * @return string
+     */
+    private function textCustomField(): string
     {
         return Template::build($this->getTemplatePath('text.html'), [
             'id' => uniqid("{$this->id}-", true),
@@ -166,7 +311,12 @@ class CustomField {
         ]);
     }
 
-    private function textareaCustomField()
+    /**
+     * Build CustomField type 'textarea'.
+     * 
+     * @return string
+     */
+    private function textareaCustomField(): string
     {
         return Template::build($this->getTemplatePath('textarea.html'), [
             'id' => uniqid("{$this->id}-", true),
@@ -177,7 +327,12 @@ class CustomField {
         ]);
     }
 
-    private function selectCustomField()
+    /**
+     * Build CustomField type 'select'.
+     * 
+     * @return string
+     */
+    private function selectCustomField(): string
     {
         $value = $this->getValue($this->index);
         foreach($this->options as &$option) {
@@ -196,7 +351,12 @@ class CustomField {
         ]);
     }
     
-    private function radioCustomField()
+    /**
+     * Build CustomField type 'radio'.
+     * 
+     * @return string
+     */
+    private function radioCustomField(): string
     {
         $value = $this->getValue($this->index);
         foreach($this->options as &$option) {
@@ -215,7 +375,12 @@ class CustomField {
         ]);
     }
 
-    private function checkboxCustomField()
+    /**
+     * Build CustomField type 'checkbox'.
+     * 
+     * @return string
+     */
+    private function checkboxCustomField(): string
     {
         return Template::build($this->getTemplatePath('checkbox.html'), [
             'id' => uniqid("{$this->id}-", true),
@@ -226,7 +391,12 @@ class CustomField {
         ]);
     }
 
-    private function numberCustomField()
+    /**
+     * Build CustomField type 'number'.
+     * 
+     * @return string
+     */
+    private function numberCustomField(): string
     {
         return Template::build($this->getTemplatePath('number.html'), [
             'id' => uniqid("{$this->id}-", true),
@@ -240,10 +410,15 @@ class CustomField {
         ]);
     }
 
-    private function editorCustomField()
+    /**
+     * Build CustomField type 'editor'.
+     * 
+     * @return string
+     */
+    private function editorCustomField(): ?string
     {
         if(isset($this->index)) {
-            return;
+            return null;
         }
 
         ob_start(); 
@@ -257,7 +432,13 @@ class CustomField {
         ]);
     }
 
-    private function getTemplatePath($path)
+    /**
+     * Generate template path.
+     * 
+     * @param  string $path
+     * @return string
+     */
+    private function getTemplatePath(string $path): string
     {
         if($this->page_type == 'setting') {
             return "SettingFields/$path";
@@ -266,14 +447,26 @@ class CustomField {
         return "CustomFields/$path";
     }
 
-    public function setIndex($index)
+    /**
+     * Set the index of the value array.
+     * 
+     * @param  int $index
+     * @return CustomField
+     */
+    public function setIndex(int $index): CustomField
     {
         $this->index = $index;
 
         return $this;
     }
 
-    public function build()
+
+    /**
+     * Set the index of the value array.
+     *
+     * @return string
+     */
+    public function build(): string
     {
         return $this->{"{$this->type}CustomField"}();
     }
