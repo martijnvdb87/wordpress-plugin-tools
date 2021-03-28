@@ -18,7 +18,7 @@ $custom_posttype = PostType::create('custom-posttype')
     ->build();
 ```
 
-Every chain should end with a `build()` method. The `build()` method will register the object using the Wordpress action hooks. Except when using an object as an argument in a method. In this example, the CustomField object should not end with the `build()` method:
+Every chain should end with a `build()` method. The `build()` method will register the object using the Wordpress action hooks. Except when using an object as an argument in a method. In the following example, the CustomField object should not end with the `build()` method:
 ```php
 $custom_field = CustomField::create('custom-field')
     ->setType('textarea')
@@ -26,7 +26,7 @@ $custom_field = CustomField::create('custom-field')
 
 $custom_metabox = MetaBox::create('custom-metabox')
     ->addPostType('page')
-    ->addItem($custom_field)
+    ->addCustomField($custom_field)
     ->build();
 ```
 
@@ -39,7 +39,7 @@ $custom_posttype = PostType::create('custom-posttype')->build();
 ```
 
 #### Add a MetaBox to the PostType
-MetaBoxes on their own won't shown anywhere. They have to be added to a PostType. These methods will do exactly that.
+MetaBoxes on their own won't be shown anywhere. They have to be added to a PostType. These methods will do exactly that.
 ```php
 $first_metabox = MetaBox::create('first-metabox');
 $second_metabox = MetaBox::create('second-metabox');
@@ -132,7 +132,7 @@ $custom_posttype = PostType::create('custom-posttype')
 ```
 
 #### Add any supported option to the PostType
-This library only has handfull of dedicated methodes to set post type options. To use any other post type option you can use the `addOption()` method. [See a full list of possible options](https://developer.wordpress.org/reference/functions/register_post_type/).
+This library only has a handfull of dedicated methods to set post type options. To use any other post type option you can use the `addOption()` method. [See a full list of possible options](https://developer.wordpress.org/reference/functions/register_post_type/).
 ```php
 $custom_posttype = PostType::create('custom-posttype')
     // Some examples
@@ -170,8 +170,8 @@ This will only be used if the CustomField is a `select` or `radio` type.
 ```php
 $new_customfield = CustomField::create('new-customfield')
     ->setType('select') // Or 'radio'
-    ->addOption('first-option', 'This is the first option');
-    ->addOption('second-option', 'This is the second option');
+    ->addOption('first-option', 'This is the first option')
+    ->addOption('second-option', 'This is the second option')
 
     // Or add multiple at once
     ->addOptions([
@@ -216,6 +216,13 @@ This object allows you to easily create one or multiple metaboxes without having
 $custom_metabox = MetaBox::create('custom-metabox')->build();
 ```
 
+#### Set the title of the MetaBox
+```php
+$custom_metabox = MetaBox::create('custom-metabox')
+    ->setTitle('Metabox title')
+    ->build();
+```
+
 #### Add a CustomField to a MetaBox
 ```php
 $first_customfield = CustomField::create('first-customfield');
@@ -234,7 +241,7 @@ $custom_metabox = MetaBox::create('custom-metabox')
 ```
 
 #### Add a list to a MetaBox
-This library allows you to easily create a growable and reorderable list of items. Each item in the list can contain multiple CustomFields. If for example you would like to add multiple URLs with title an a description to a post, you can use a list for this.
+This library allows you to easily create a growable and reorderable list of items. Each item in the list can contain multiple CustomFields. If for example you would like to add multiple URLs with a title and a description to a post, you can use a list for this.
 ```php
 $first_customfield = CustomField::create('first-customfield');
 $second_customfield = CustomField::create('second-customfield');
@@ -268,7 +275,7 @@ This library uses two text strings in the MetaBox which can be customized or tra
 - `new` New
 - `delete_confirm` Are you sure you want to delete this item?
 
-This is how to customized them:
+This is how to customize them:
 ```php
 $custom_metabox = MetaBox::create('custom-metabox')
     ->setText('new', 'Nieuwe lijst')
@@ -305,7 +312,7 @@ $custom_settingspage = SettingsPage::create('custom-settingspage')
 #### Set the slug of the SettingsPage
 ```php
 $custom_settingspage = SettingsPage::create('custom-settingspage')
-    ->setSlug('Menu title')
+    ->setSlug('settingspage-slug')
     ->build();
 ```
 
@@ -326,7 +333,7 @@ $custom_settingspage = SettingsPage::create('custom-settingspage')
     ->addCustomField($first_customfield)
 
     // Or add multiple at once
-    ->addCustomField([
+    ->addCustomFields([
         $second_customfield,
         $third_customfield,
     ])
