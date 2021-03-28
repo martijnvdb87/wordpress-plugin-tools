@@ -4,7 +4,7 @@ The goal of this library is to simplify the proces of creating custom post types
 ## Installation
 You can install the package via composer:
 ```bash
-composer require martijnvdb/wordpress-plugins-tools
+composer require martijnvdb/wordpress-plugin-tools
 ```
 
 ## Usage
