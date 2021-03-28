@@ -128,6 +128,19 @@ class MetaBox {
     }
 
     /**
+     * Set the title of the MetaBox.
+     * 
+     * @param  string $value
+     * @return MetaBox
+     */
+    public function setTitle(string $value): MetaBox
+    {
+        $this->title = $value;
+
+        return $this;
+    }
+
+    /**
      * Register the PostTypes in which the MetaBox should be shown.
      * 
      * @param  array $post_types
