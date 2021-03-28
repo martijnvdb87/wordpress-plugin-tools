@@ -294,7 +294,7 @@ class MetaBox {
         });
         
         foreach($custom_fields as $custom_field) {
-            $this->addItem($custom_field);
+            $this->addCustomField($custom_field);
         }
 
         return $this;

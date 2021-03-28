@@ -289,7 +289,7 @@ class SettingsPage {
         
         $this->items[] = [
             'type' => 'field',
-            'fields' => $setting_field
+            'fields' => [$setting_field]
         ];
 
         return $this;
