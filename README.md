@@ -7,8 +7,6 @@ You can install the package via composer:
 composer require martijnvdb/wordpress-plugins-tools
 ```
 
----
-
 ## Usage
 All documented objects use a fluent interface, which allows you to chain methods. For example:
 ```php
@@ -32,16 +30,14 @@ $custom_metabox = MetaBox::create('custom-metabox')
     ->build();
 ```
 
----
-
 ### PostType
 
-##### Create a new PostType
+#### Create a new PostType
 ```php
 $custom_posttype = PostType::create('custom-posttype')->build();
 ```
 
-##### Add a MetaBox to the PostType
+#### Add a MetaBox to the PostType
 ```php
 $first_metabox = MetaBox::create('first-metabox');
 $second_metabox = MetaBox::create('second-metabox');
@@ -53,7 +49,7 @@ $custom_posttype = PostType::create('custom-posttype')
     ->build();
 ```
 
-##### Add labels to the PostType
+#### Add labels to the PostType
 ```php
 $products_posttype = PostType::create('products')
     ->setLabel('name', 'Products') // Add a single label
@@ -70,35 +66,35 @@ $products_posttype = PostType::create('products')
 
 [See a full list of supported labels](https://developer.wordpress.org/reference/functions/get_post_type_labels/)
 
-##### Add a description to the PostType
+#### Add a description to the PostType
 ```php
 $custom_posttype = PostType::create('custom-posttype')
     ->setDescription('A very interesting description')
     ->build();
 ```
 
-##### Make the PostType public
+#### Make the PostType public
 ```php
 $custom_posttype = PostType::create('custom-posttype')
     ->setPublic()
     ->build();
 ```
 
-##### Set menu position of the PostType
+#### Set menu position of the PostType
 ```php
 $custom_posttype = PostType::create('custom-posttype')
     ->setMenuPosition(8)
     ->build();
 ```
 
-##### Set menu position of the PostType
+#### Set menu position of the PostType
 ```php
 $custom_posttype = PostType::create('custom-posttype')
     ->setIcon('dashicons-thumbs-up')
     ->build();
 ```
 
-##### Add feature support to the PostType
+#### Add feature support to the PostType
 ```php
 $custom_posttype = PostType::create('custom-posttype')
     ->addSupport(['title', 'thumbnail', 'comments']) // Must be an array
@@ -107,7 +103,7 @@ $custom_posttype = PostType::create('custom-posttype')
 
 [See a full list of supported features](https://developer.wordpress.org/reference/functions/add_post_type_support/)
 
-##### Remove feature support from the PostType
+#### Remove feature support from the PostType
 ```php
 $custom_posttype = PostType::create('custom-posttype')
     ->removeSupport(['editor']) // Must be an array
@@ -116,21 +112,21 @@ $custom_posttype = PostType::create('custom-posttype')
 
 [See a full list of supported features](https://developer.wordpress.org/reference/functions/add_post_type_support/)
 
-##### Set the slug of the PostType
+#### Set the slug of the PostType
 ```php
 $custom_posttype = PostType::create('custom-posttype')
     ->setSlug('custom-slug')
     ->build();
 ```
 
-##### Use the block editor in the PostType
+#### Use the block editor in the PostType
 ```php
 $custom_posttype = PostType::create('custom-posttype')
     ->addBlockEditor()
     ->build();
 ```
 
-##### Add any supported option to the PostType
+#### Add any supported option to the PostType
 ```php
 $custom_posttype = PostType::create('custom-posttype')
     // Some examples
@@ -142,11 +138,69 @@ $custom_posttype = PostType::create('custom-posttype')
 
 [See a full list of possible options](https://developer.wordpress.org/reference/functions/register_post_type/)
 
----
-
 ### CustomField
+
+#### Create a new CustomField
 ```php
-$customfield = CustomField::create('my-customfield')->build();
+$customfield = CustomField::create('new-customfield')->build();
+```
+
+#### Set the CustomField type
+The possible CustomField types are `text`, `textarea`, `checkbox`, `number`, `select`, `radio` and `editor`.
+```php
+$new_customfield = CustomField::create('new-customfield')
+    ->setType('textarea')
+    ->build();
+```
+
+#### Set the label of the CustomField
+```php
+$new_customfield = CustomField::create('new-customfield')
+    ->setLabel('New custom field')
+    ->build();
+```
+
+#### Add options to the CustomField
+This will only be used if the CustomField is a `select` or `radio` type.
+```php
+$new_customfield = CustomField::create('new-customfield')
+    ->setType('select') // Or 'radio'
+    ->addOption('first-option', 'This is the first option');
+    ->addOption('second-option', 'This is the second option');
+
+    // Or add multiple at once
+    ->addOptions([
+        'third-option' => 'This is the third option',
+        'fourth-option' => 'This is the fourth option'
+    ]);
+    ->build();
+```
+
+#### Set the minimal value of the CustomField
+This will only be used if the CustomField is a `number` type.
+```php
+$new_customfield = CustomField::create('new-customfield')
+    ->setType('number')
+    ->setMin(0)
+    ->build();
+```
+
+#### Set the maximum value of the CustomField
+This will only be used if the CustomField is a `number` type.
+```php
+$new_customfield = CustomField::create('new-customfield')
+    ->setType('number')
+    ->setMax(100)
+    ->build();
+```
+
+#### Set the size of the steps of the CustomField
+This will only be used if the CustomField is a `number` type.
+```php
+$new_customfield = CustomField::create('new-customfield')
+    ->setType('number')
+    ->setStep(10)
+    ->build();
 ```
 
 ### MetaBox
