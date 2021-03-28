@@ -133,11 +133,11 @@ class MetaBox {
      * @param  array $post_types
      * @return MetaBox
      */
-    public function setPostType(array $post_types = []): MetaBox
+    public function addPostTypes(array $post_types = []): MetaBox
     {
-        $post_types = is_array($post_types) ? $post_types : [$post_types];
-
-        $this->post_types = $post_types;
+        foreach($post_types as $post_type) {
+            $this->addPostType($post_type);
+        }
 
         return $this;
     }
@@ -256,7 +256,7 @@ class MetaBox {
      * @param  CustomField $custom_field
      * @return MetaBox
      */
-    public function addItem(CustomField $custom_field): MetaBox
+    public function addCustomField(CustomField $custom_field): MetaBox
     {
         $this->items[] = [
             'type' => 'field',
@@ -272,7 +272,7 @@ class MetaBox {
      * @param  array $custom_fields
      * @return MetaBox
      */
-    public function addItems(array $custom_fields): MetaBox
+    public function addCustomFields(array $custom_fields): MetaBox
     {
         $custom_fields = is_array($custom_fields) ? $custom_fields : [$custom_fields];
 

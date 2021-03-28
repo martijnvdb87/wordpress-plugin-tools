@@ -1,7 +1,7 @@
 {
     "name": "martijnvdb/wordpress-plugin-tools",
     "description": "A simple library to quickly create Wordpress plugins",
-    "version": "1.0.0",
+    "version": "0.1.0",
     "type": "library",
     "keywords": [
         "wordpress",

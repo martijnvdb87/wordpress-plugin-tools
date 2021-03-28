@@ -18,7 +18,7 @@ $custom_posttype = PostType::create('custom-posttype')
     ->build();
 ```
 
-Every chain should end with a `build()` method. Except when using an object as an argument in a method. In this example, the CustomField object should not end with the `build()` method:
+Every chain should end with a `build()` method. The `build()` method will register the object using the Wordpress action hooks. Except when using an object as an argument in a method. In this example, the CustomField object should not end with the `build()` method:
 ```php
 $custom_field = CustomField::create('custom-field')
     ->setType('textarea')
@@ -30,7 +30,8 @@ $custom_metabox = MetaBox::create('custom-metabox')
     ->build();
 ```
 
-### PostType
+## PostType
+This object allows you to easily create one or multiple post types without having to worry about the Wordpress hooks. Chain any method you like and end with the `build()` method to register the post type.
 
 #### Create a new PostType
 ```php
@@ -38,6 +39,7 @@ $custom_posttype = PostType::create('custom-posttype')->build();
 ```
 
 #### Add a MetaBox to the PostType
+MetaBoxes on their own won't shown anywhere. They have to be added to a PostType. These methods will do exactly that.
 ```php
 $first_metabox = MetaBox::create('first-metabox');
 $second_metabox = MetaBox::create('second-metabox');
@@ -50,6 +52,7 @@ $custom_posttype = PostType::create('custom-posttype')
 ```
 
 #### Add labels to the PostType
+All the Wordpress labels can be used. [See a full list of supported labels](https://developer.wordpress.org/reference/functions/get_post_type_labels/).
 ```php
 $products_posttype = PostType::create('products')
     ->setLabel('name', 'Products') // Add a single label
@@ -64,7 +67,6 @@ $products_posttype = PostType::create('products')
     ->build();
 ```
 
-[See a full list of supported labels](https://developer.wordpress.org/reference/functions/get_post_type_labels/)
 
 #### Add a description to the PostType
 ```php
@@ -74,6 +76,7 @@ $custom_posttype = PostType::create('custom-posttype')
 ```
 
 #### Make the PostType public
+PostTypes are `false` by default. Using this method the PostType will be shown in the admin interface.
 ```php
 $custom_posttype = PostType::create('custom-posttype')
     ->setPublic()
@@ -87,7 +90,7 @@ $custom_posttype = PostType::create('custom-posttype')
     ->build();
 ```
 
-#### Set menu position of the PostType
+#### Set the icon of the PostType
 ```php
 $custom_posttype = PostType::create('custom-posttype')
     ->setIcon('dashicons-thumbs-up')
@@ -95,6 +98,7 @@ $custom_posttype = PostType::create('custom-posttype')
 ```
 
 #### Add feature support to the PostType
+Any Wordpress core feature can be used. The core features are `title`, `editor`, `comments`, `revisions`, `trackbacks`, `author`, `excerpt`, `page-attributes`, `thumbnail`, `custom-fields` and `post-formats`.
 ```php
 $custom_posttype = PostType::create('custom-posttype')
     ->addSupport(['title', 'thumbnail', 'comments']) // Must be an array
@@ -104,6 +108,7 @@ $custom_posttype = PostType::create('custom-posttype')
 [See a full list of supported features](https://developer.wordpress.org/reference/functions/add_post_type_support/)
 
 #### Remove feature support from the PostType
+Any Wordpress core feature can be removed. The core features are `title`, `editor`, `comments`, `revisions`, `trackbacks`, `author`, `excerpt`, `page-attributes`, `thumbnail`, `custom-fields` and `post-formats`.
 ```php
 $custom_posttype = PostType::create('custom-posttype')
     ->removeSupport(['editor']) // Must be an array
@@ -127,6 +132,7 @@ $custom_posttype = PostType::create('custom-posttype')
 ```
 
 #### Add any supported option to the PostType
+This library only has handfull of dedicated methodes to set post type options. To use any other post type option you can use the `addOption()` method. [See a full list of possible options](https://developer.wordpress.org/reference/functions/register_post_type/).
 ```php
 $custom_posttype = PostType::create('custom-posttype')
     // Some examples
@@ -136,9 +142,8 @@ $custom_posttype = PostType::create('custom-posttype')
     ->build();
 ```
 
-[See a full list of possible options](https://developer.wordpress.org/reference/functions/register_post_type/)
-
-### CustomField
+## CustomField
+This object allows you to easily create one or multiple custom fields without having to worry about the Wordpress hooks. Chain any method you like and end with the `build()` method to register the custom field.
 
 #### Create a new CustomField
 ```php
@@ -203,12 +208,127 @@ $new_customfield = CustomField::create('new-customfield')
     ->build();
 ```
 
-### MetaBox
+## MetaBox
+This object allows you to easily create one or multiple metaboxes without having to worry about the Wordpress hooks. Chain any method you like and end with the `build()` method to register the metabox.
+
+#### Create a new MetaBox
 ```php
-$metabox = MetaBox::create('my-metabox')->build();
+$custom_metabox = MetaBox::create('custom-metabox')->build();
 ```
 
-### SettingsPage
+#### Add a CustomField to a MetaBox
 ```php
-$settingspage = SettingsPage::create('my-settingspage')->build();
+$first_customfield = CustomField::create('first-customfield');
+$second_customfield = CustomField::create('second-customfield');
+$third_customfield = CustomField::create('third-customfield');
+
+$custom_metabox = MetaBox::create('custom-metabox')
+    ->addCustomField($first_customfield)
+
+    // Or add multiple at once
+    ->addCustomFields([
+        $second_customfield,
+        $third_customfield,
+    ])
+    ->build();
+```
+
+#### Add a list to a MetaBox
+This library allows you to easily create a growable and reorderable list of items. Each item in the list can contain multiple CustomFields. If for example you would like to add multiple URLs with title an a description to a post, you can use a list for this.
+```php
+$first_customfield = CustomField::create('first-customfield');
+$second_customfield = CustomField::create('second-customfield');
+$third_customfield = CustomField::create('third-customfield');
+
+$custom_metabox = MetaBox::create('custom-metabox')
+    ->addList('custom-list', [
+        $first_customfield,
+        $second_customfield,
+        $third_customfield
+    ])
+    ->build();
+```
+
+#### Add the MetaBox to a Wordpress post type
+The ID of the post types has to be used as an argument of these methods. These methods allow you to add MetaBoxes to existing post types which aren't created with this library.
+```php
+$custom_metabox = MetaBox::create('custom-metabox')
+    ->addPostType('page')
+
+    // Or add multiple at once
+    ->addPostTypes([
+        'custom-posttype',
+        'another-posttype',
+    ])
+    ->build();
+```
+
+#### Customize text
+This library uses two text strings in the MetaBox which can be customized or translated. The following texts are used:
+- `new` New
+- `delete_confirm` Are you sure you want to delete this item?
+
+This is how to customized them:
+```php
+$custom_metabox = MetaBox::create('custom-metabox')
+    ->setText('new', 'Nieuwe lijst')
+
+    // Or customize multiple at once
+    ->setTexts([
+        'new' => 'Nieuwe lijst',
+        'delete_confirm' => 'Weet u zeker dat u deze lijst wil verwijderen?'
+    ])
+    ->build();
+```
+
+## SettingsPage
+This object allows you to easily create one or multiple setting pages without having to worry about the Wordpress hooks. Chain any method you like and end with the `build()` method to register the setting page.
+
+```php
+$custom_settingspage = SettingsPage::create('custom-settingspage')->build();
+```
+
+#### Set the page title of the SettingsPage
+```php
+$custom_settingspage = SettingsPage::create('custom-settingspage')
+    ->setPageTitle('The page title')
+    ->build();
+```
+
+#### Set the menu title of the SettingsPage
+```php
+$custom_settingspage = SettingsPage::create('custom-settingspage')
+    ->setMenuTitle('Menu title')
+    ->build();
+```
+
+#### Set the slug of the SettingsPage
+```php
+$custom_settingspage = SettingsPage::create('custom-settingspage')
+    ->setSlug('Menu title')
+    ->build();
+```
+
+#### Set the icon of the SettingsPage
+```php
+$custom_settingspage = SettingsPage::create('custom-settingspage')
+    ->setIcon('dashicons-thumbs-up')
+    ->build();
+```
+
+#### Add CustomFields to the SettingsPage
+```php
+$first_customfield = CustomField::create('first-customfield');
+$second_customfield = CustomField::create('second-customfield');
+$third_customfield = CustomField::create('third-customfield');
+
+$custom_settingspage = SettingsPage::create('custom-settingspage')
+    ->addCustomField($first_customfield)
+
+    // Or add multiple at once
+    ->addCustomField([
+        $second_customfield,
+        $third_customfield,
+    ])
+    ->build();
 ```

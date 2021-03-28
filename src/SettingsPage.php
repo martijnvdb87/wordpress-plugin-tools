@@ -283,7 +283,7 @@ class SettingsPage {
      * @param  CustomField $setting_field
      * @return SettingsPage
      */
-    public function addItem(CustomField $setting_field): SettingsPage
+    public function addCustomField(CustomField $setting_field): SettingsPage
     {
         $setting_field->setPageType('setting');
         
@@ -301,7 +301,7 @@ class SettingsPage {
      * @param  array $setting_fields
      * @return SettingsPage
      */
-    public function addItems(array $setting_fields = []): SettingsPage
+    public function addCustomFields(array $setting_fields = []): SettingsPage
     {
         if(!is_array($setting_fields)) {
             $setting_fields = [$setting_fields];
@@ -312,7 +312,7 @@ class SettingsPage {
         });
 
         foreach($setting_fields as $setting_field) {
-            $this->addItem($setting_field);
+            $this->addCustomField($setting_field);
         }
 
         return $this;

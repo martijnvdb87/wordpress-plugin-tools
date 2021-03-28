@@ -3,7 +3,7 @@
  * Plugin Name:       Wordpress Plugin Tools
  * Plugin URI:        https://github.com/martijnvdb87/wordpress-plugin-tools
  * Description:       A simple library to quickly create Wordpress plugins.
- * Version:           1.0.0
+ * Version:           0.1.0
  * Requires at least: 5.2
  * Requires PHP:      7.0
  * Author:            Martijn van den Bosch
@@ -21,7 +21,7 @@ use Martijnvdb\WordpressPluginTools\{PostType, CustomField, MetaBox, SettingsPag
 require_once __DIR__ . '/vendor/autoload.php';
 
 // $metabox_testing = MetaBox::create('just-testing')
-//     ->addItems([
+//     ->addCustomFields([
 //         CustomField::create('just-testing')
 //             ->setType('text')
 //             ->setLabel('Custom field 1'),
@@ -80,7 +80,7 @@ require_once __DIR__ . '/vendor/autoload.php';
 // $settingspage_1 = SettingsPage::create('yay')
 //     ->setPageTitle('Page Title')
 //     ->setMenuTitle('Menu Title')
-//     ->addItems([
+//     ->addCustomFields([
 //         CustomField::create('just-testing')
 //             ->setType('text')
 //             ->setLabel('Custom field 1'),
@@ -123,7 +123,7 @@ require_once __DIR__ . '/vendor/autoload.php';
 
     $custom_metabox = MetaBox::create('custom-metabox')
     ->addPostType('page')
-    ->addItem(
+    ->addCustomField(
         CustomField::create('custom-field')
             ->setType('textarea')
             ->setLabel('page-custom-textarea')
