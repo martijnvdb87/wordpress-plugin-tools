@@ -14,6 +14,8 @@ declare(strict_types = 1);
 
 namespace Martijnvdb\WordpressPluginTools;
 
+use Martijnvdb\WordpressPluginTools\MetaBox;
+
 // Prevent direct access
 if(!defined('ABSPATH')) {
     exit;
@@ -86,19 +88,30 @@ class PostType {
     }
 
     /**
-     * Add MetaBox to PostType.
+     * Add MetaBoxes to PostType.
      * 
      * @param  array $metaboxes
      * @return PostType
      */
-    public function addMetaBox(array $metaboxes = []): PostType
+    public function addMetaBoxes(array $metaboxes = []): PostType
     {
-        $metaboxes = is_array($metaboxes) ? $metaboxes : [$metaboxes];
-
         foreach($metaboxes as $metabox) {
-            $this->metaboxes[] = $metabox;
-            $metabox->addPosttype($this->id);
+            $this->addMetaBox($metabox);
         }
+
+        return $this;
+    }
+
+    /**
+     * Add MetaBox to PostType.
+     * 
+     * @param  MetaBox $metabox
+     * @return PostType
+     */
+    public function addMetaBox(MetaBox $metabox): PostType
+    {
+        $this->metaboxes[] = $metabox;
+        $metabox->addPosttype($this->id);
 
         return $this;
     }
@@ -163,22 +176,9 @@ class PostType {
     }
 
     /**
-     * Allow the PostType to be searchable.
-     * 
-     * @param  bool $value
-     * @return PostType
-     */
-    public function setSearchable(bool $value = true): PostType
-    {
-        $this->options['exclude_from_search'] = (boolean) !$value;
-        
-        return $this;
-    }
-
-    /**
      * Set the menu position of the PostType.
      * 
-     * @param  bool $value
+     * @param  int $value
      * @return PostType
      */
     public function setMenuPosition(int $value): PostType
@@ -211,8 +211,6 @@ class PostType {
      */
     public function addSupport(array $values = []): PostType
     {
-        $values = is_array($values) ? $values : [$values];
-
         foreach($values as $value) {
             if(!in_array($value, $this->options['supports'])) {
                 $this->options['supports'][] = $value;
@@ -229,9 +227,7 @@ class PostType {
      * @return PostType
      */
     public function removeSupport(array $values = []): PostType
-    {
-        $values = is_array($values) ? $values : [$values];
-        
+    {        
         foreach($values as $value) {
             $this->options['supports'] = array_filter($this->options['supports'], function($option) use ($value) {
                 return $option != $value;
